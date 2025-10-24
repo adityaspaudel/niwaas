@@ -1,4 +1,4 @@
-# 🏨 आतिथ्य (Atithya) — Hotel Management System
+# 🏨 Niwaas — Hotel Management System
 
 A full-stack Hotel Management System built using **Next.js**, **Express.js**, and **MongoDB**, designed to simplify hotel operations — from room booking to staff and guest management.
 
@@ -6,9 +6,9 @@ A full-stack Hotel Management System built using **Next.js**, **Express.js**, an
 
 ## 🚀 Features Roadmap
 
-### 🌱 Phase 1 — Basic Features
+### 🌱 Phase 1
 
-- [ ] User authentication (Admin & Staff)
+- [ ] User authentication (Admin , Staff, Customer)
 - [ ] Add/Edit/Delete hotel rooms
 - [ ] Manage room categories (Single, Double, Deluxe)
 - [ ] Room booking system
@@ -16,9 +16,9 @@ A full-stack Hotel Management System built using **Next.js**, **Express.js**, an
 - [ ] Dashboard with key stats
 - [ ] Room availability check
 
-### ⚙️ Phase 2 — Intermediate Features
+### ⚙️ Phase 2
 
-- [ ] Role-based access (Admin, Receptionist)
+- [ ] Role-based access (Admin, Receptionist, Customer)
 - [ ] Booking statuses (Pending, Confirmed, Checked-in, Checked-out)
 - [ ] Payment tracking (manual entry)
 - [ ] Email notifications for bookings
@@ -26,12 +26,11 @@ A full-stack Hotel Management System built using **Next.js**, **Express.js**, an
 - [ ] Guest booking history
 - [ ] Room search & filters
 
-### 🚀 Phase 3 — Optional Add-ons (For Learning/Practice)
+### 🚀 Phase 3
 
 - [ ] Room image uploads
 - [ ] Review & feedback system
 - [ ] Staff management
-- [ ] Light/Dark theme
 - [ ] Deployment (Vercel + Render)
 
 ---
