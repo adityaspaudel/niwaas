@@ -44,5 +44,36 @@ const userRegistration = async (req, res) => {
 			.send({ message: "user registration failed", error: error.message });
 	}
 };
+const userLogin = async (req, res) => {
+	try {
+		const { email, password, role } = req.body;
+		if (!email || !password) {
+			res.status(204).send({ message: "please enter email and password" });
+		}
+		const existingUserByEmail = await User.findOne({ email });
 
-module.exports = { userRegistration };
+		if (!existingUserByEmail) {
+			res.status(404).send("user not found");
+		} else {
+			const matchPassword = await bcrypt.compare(
+				password,
+				existingUserByEmail.password
+			);
+
+			if (!matchPassword) {
+				res.status(401).send({ message: "password didn`t match" });
+			}
+
+			const token = jwt.sign({ id: existingUserByEmail._id }, JWT_SECRET, {
+				expiresIn: "7d",
+			});
+			res.status(200).json({
+				message: "login successful",
+				token,
+				user: existingUserByEmail.email,
+				role,
+			});
+		}
+	} catch (error) {}
+};
+module.exports = { userRegistration, userLogin };
