@@ -24,7 +24,10 @@ const userRegistration = async (req, res) => {
 		if (existingUserByUsername || existingUserByEmail) {
 			res
 				.status(409)
-				.send("user already exists please try another username or password");
+				.send({
+					message:
+						"user already exists please try another username or password",
+				});
 		}
 
 		const hashedPassword = await bcrypt.hash(password, saltRounds);
