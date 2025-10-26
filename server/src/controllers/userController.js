@@ -22,9 +22,9 @@ const userRegistration = async (req, res) => {
 		const existingUserByEmail = await User.findOne({ email });
 
 		if (existingUserByUsername || existingUserByEmail) {
-			res
-				.status(409)
-				.send("user already exists please try another username or password");
+			res.status(409).send({
+				message: "user already exists please try another username or password",
+			});
 		}
 
 		const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -46,14 +46,14 @@ const userRegistration = async (req, res) => {
 };
 const userLogin = async (req, res) => {
 	try {
-		const { email, password, role } = req.body;
+		const { email, password } = req.body;
 		if (!email || !password) {
 			res.status(204).send({ message: "please enter email and password" });
 		}
 		const existingUserByEmail = await User.findOne({ email });
 
 		if (!existingUserByEmail) {
-			res.status(404).send("user not found");
+			res.status(404).send({ message: "user not found" });
 		} else {
 			const matchPassword = await bcrypt.compare(
 				password,
@@ -71,9 +71,13 @@ const userLogin = async (req, res) => {
 				message: "login successful",
 				token,
 				user: existingUserByEmail.email,
-				role,
+				role: existingUserByEmail.role,
+				id: existingUserByEmail._id,
 			});
 		}
-	} catch (error) {}
+	} catch (error) {
+		console.error("login failed");
+		res.status(500).send({ message: "login failed" });
+	}
 };
 module.exports = { userRegistration, userLogin };
