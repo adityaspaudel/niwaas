@@ -70,7 +70,7 @@ const RegistrationForm = () => {
 						console.error("could not submit registration form data", error);
 						setApiMessage(error.message);
 					} finally {
-
+						setTimeout(() => setApiMessage(null), [3000]);
 					}
 				}}
 			>
@@ -83,7 +83,7 @@ const RegistrationForm = () => {
 								<div>{errors.fullName}</div>
 							) : null}
 						</div>
-						<label htmlFor="username">Last Name</label>
+						<label htmlFor="username">Username</label>
 						<Field name="username" placeholder="Doe" />
 						<div className="text-red-400 text-xs">
 							{touched.username && errors.username ? (
@@ -114,7 +114,15 @@ const RegistrationForm = () => {
 							{isSubmitting ? "Submitting..." : "Submit"}
 						</button>
 
-						{apiMessage && <div>{JSON.stringify(apiMessage)}</div>}
+						{apiMessage && (
+							<div>
+								{apiMessage === "registration successful" ? (
+									<div className="text-green-400">{apiMessage}</div>
+								) : (
+									<div className="text-red-400">{apiMessage}</div>
+								)}
+							</div>
+						)}
 					</Form>
 				)}
 			</Formik>
