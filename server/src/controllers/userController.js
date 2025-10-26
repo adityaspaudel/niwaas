@@ -36,7 +36,7 @@ const userRegistration = async (req, res) => {
 			password: hashedPassword,
 			role,
 		});
-		res.status(201).send("registration successful");
+		res.status(201).send({ message: "registration successful" });
 	} catch (error) {
 		console.error("user registration failed", error);
 		res
