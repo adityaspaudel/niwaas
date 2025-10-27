@@ -35,19 +35,7 @@ const roomSchema = new mongoose.Schema(
 			trim: true,
 		},
 
-		amenities: [
-			{
-				type: String,
-				enum: [
-					"Non Air Conditioning without lunch and dinner",
-					"Air Conditioning without lunch and dinner",
-					"Non Air Conditioning with lunch and dinner",
-					"Air Conditioning with lunch and dinner",
-				],
-			},
-		],
-
-		images: [
+		imagesUrl: [
 			{
 				type: String,
 				required: true,
@@ -56,24 +44,14 @@ const roomSchema = new mongoose.Schema(
 
 		status: {
 			type: String,
-			enum: ["Available", "Occupied", "Cleaning", "Maintenance"],
+			enum: ["Available", "Occupied"],
 			default: "Available",
-		},
-
-		isBooked: {
-			type: Boolean,
-			default: false,
 		},
 
 		currentBooking: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "User",
 			default: null,
-		},
-
-		discount: {
-			type: Number,
-			default: 0,
 		},
 
 		// Audit fields
