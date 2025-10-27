@@ -8,7 +8,7 @@ A full-stack Hotel Management System built using **Next.js**, **Express.js**, an
 
 ### 🌱 Phase 1
 
-- [ ] User authentication (Admin , Staff, Customer)
+- [ ] User authentication (Admin , Staff, Guest)
 - [ ] Add/Edit/Delete hotel rooms
 - [ ] Manage room categories (Single, Double, Deluxe)
 - [ ] Room booking system
@@ -18,7 +18,7 @@ A full-stack Hotel Management System built using **Next.js**, **Express.js**, an
 
 ### ⚙️ Phase 2
 
-- [ ] Role-based access (Admin, Receptionist, Customer)
+- [ ] Role-based access (Admin, Staff, Guest)
 - [ ] Booking statuses (Pending, Confirmed, Checked-in, Checked-out)
 - [ ] Payment tracking (manual entry)
 - [ ] Email notifications for bookings

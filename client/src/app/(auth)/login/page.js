@@ -48,10 +48,10 @@ const LoginForm = () => {
 
 						if (!response.ok) throw new Error("could not login");
 						if (data.role == "admin") router.push(`/admin/${data.id}/home`);
-						else if (data.role == "customer")
-							router.push(`/customer/${data.id}/ home`);
-						else if (data.role == "receptionist")
-							router.push(`/receptionist/${data.id}/home`);
+						else if (data.role == "guest")
+							router.push(`/guest/${data.id}/home`);
+						else if (data.role == "staff")
+							router.push(`/staff/${data.id}/home`);
 					} catch (error) {
 						console.error("login failed", error);
 						setApiMessage(error.message);

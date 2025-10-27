@@ -103,11 +103,11 @@ const RegistrationForm = () => {
 							) : null}
 						</div>
 						<Field as="select" name="role">
-							<option value="customer" default>
-								Customer
+							<option value="guest" default>
+								guest
 							</option>
 							<option value="admin">admin</option>
-							<option value="receptionist">receptionist</option>
+							<option value="staff">staff</option>
 						</Field>
 						{touched.role && errors.role ? <div>{errors.role}</div> : null}
 						<button type="submit" disabled={isSubmitting}>
