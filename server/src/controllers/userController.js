@@ -10,6 +10,7 @@ dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET;
 const saltRounds = 10;
 
+// user registration
 const userRegistration = async (req, res) => {
 	try {
 		const { fullName, username, email, password, role } = req.body;
@@ -23,7 +24,7 @@ const userRegistration = async (req, res) => {
 
 		if (existingUserByUsername || existingUserByEmail) {
 			res.status(409).send({
-				message: "user already exists please try another username or password",
+				message: "user already exists please try another username or email",
 			});
 		}
 
@@ -44,6 +45,8 @@ const userRegistration = async (req, res) => {
 			.send({ message: "user registration failed", error: error.message });
 	}
 };
+
+// user login
 const userLogin = async (req, res) => {
 	try {
 		const { email, password } = req.body;

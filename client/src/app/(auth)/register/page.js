@@ -62,7 +62,7 @@ const RegistrationForm = () => {
 							username: "",
 							email: "",
 							password: "",
-							role: "",
+							role: "guest",
 						});
 
 						setApiMessage(msg);
@@ -76,7 +76,7 @@ const RegistrationForm = () => {
 			>
 				{({ isSubmitting, touched, errors }) => (
 					<Form className="flex flex-col content-center items-center h-screen w-screen bg-white text-black">
-						<label htmlFor="fullName">First Name</label>
+						<label htmlFor="fullName">FullName</label>
 						<Field name="fullName" placeholder="Jane" />
 						<div className="text-red-400 text-xs">
 							{touched.fullName && errors.fullName ? (
@@ -103,11 +103,9 @@ const RegistrationForm = () => {
 							) : null}
 						</div>
 						<Field as="select" name="role">
-							<option value="customer" default>
-								Customer
-							</option>
+							<option value="guest">guest</option>
 							<option value="admin">admin</option>
-							<option value="receptionist">receptionist</option>
+							<option value="staff">staff</option>
 						</Field>
 						{touched.role && errors.role ? <div>{errors.role}</div> : null}
 						<button type="submit" disabled={isSubmitting}>
