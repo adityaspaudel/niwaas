@@ -7,7 +7,7 @@ const GuestHome = () => {
 	const { guestId } = useParams();
 	return (
 		<main>
-			<div>GuestHome</div>
+			<div>Guest Home</div>
 			<div>GuestId: {guestId}</div>
 		</main>
 	);

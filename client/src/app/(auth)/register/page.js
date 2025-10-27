@@ -70,7 +70,7 @@ const RegistrationForm = () => {
 						console.error("could not submit registration form data", error);
 						setApiMessage(error.message);
 					} finally {
-						setTimeout(() => setApiMessage(null), [3000]);
+						setTimeout(() => setApiMessage(null), [5000]);
 					}
 				}}
 			>

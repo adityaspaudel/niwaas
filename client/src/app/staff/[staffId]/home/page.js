@@ -7,7 +7,7 @@ const StaffHome = () => {
 	const { staffId } = useParams();
 	return (
 		<main>
-			<div>StaffHome</div>
+			<div>Staff Home</div>
 			<div>Staff: {staffId}</div>
 		</main>
 	);
