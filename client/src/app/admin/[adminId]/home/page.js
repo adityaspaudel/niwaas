@@ -7,7 +7,7 @@ const AdminHome = () => {
 	const { adminId } = useParams();
 	return (
 		<main>
-			<div>AdminHome</div>
+			<div>Admin Home</div>
 			<div>adminId: {adminId}</div>
 		</main>
 	);
