@@ -103,4 +103,25 @@ const updateRoom = async (req, res) => {
 		return res.status(500).json({ message: "Failed to update room" });
 	}
 };
-module.exports = { createRoom, updateRoom };
+
+const deleteRoom = async (req, res) => {
+	try {
+		const { roomNumber } = req.body;
+		if (!roomNumber) {
+			res
+				.status(204)
+				.send({ message: "please enter a roomNumber you want to delete" });
+		}
+		const deletedRoom = await Room.findOneAndDelete({ roomNumber });
+
+		if (!deletedRoom) {
+			res.status(400).send({ message: "error occurred while deleting a room" });
+		}
+
+		res.status(200).send({ message: "room deletion successful" });
+	} catch (error) {
+		console.error("failed to delete room", error);
+		res.send({ message: "failed to delete a  room", error: error.message });
+	}
+};
+module.exports = { createRoom, updateRoom, deleteRoom };
