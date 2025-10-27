@@ -10,8 +10,7 @@ dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET;
 const saltRounds = 10;
 
-
-// user registration 
+// user registration
 const userRegistration = async (req, res) => {
 	try {
 		const { fullName, username, email, password, role } = req.body;
@@ -47,7 +46,7 @@ const userRegistration = async (req, res) => {
 	}
 };
 
-// user login 
+// user login
 const userLogin = async (req, res) => {
 	try {
 		const { email, password } = req.body;
