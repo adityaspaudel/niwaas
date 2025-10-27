@@ -84,25 +84,5 @@ const userLogin = async (req, res) => {
 	}
 };
 
-const createRoom = async (req, res) => {
-	try {
-		const {
-			roomNumber,
-			roomType,
-			pricePerNight,
-			capacity,
-			description,
-			status,
-			imageUrl,
-			currentBooking,
-			isBooked,
-			createdBy,
-		} = req.body;
 
-
-	} catch (error) {
-		console.error("room creation failed");
-		res.status(500).send({ message: "failed to create a room" });
-	}
-};
 module.exports = { userRegistration, userLogin };
