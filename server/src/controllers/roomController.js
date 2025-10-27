@@ -46,4 +46,82 @@ const createRoom = async (req, res) => {
 	}
 };
 
-module.exports = { createRoom };
+const updateRoom = async (req, res) => {
+	try {
+		const {
+			roomNumber,
+			roomType,
+			pricePerNight,
+			capacity,
+			description,
+			status,
+			currentBooking,
+		} = req.body;
+
+		const { adminId } = req.params;
+
+		// Validate input
+		if (!adminId || !roomNumber) {
+			return res.status(400).json({
+				message: "Please provide both adminId and roomNumber",
+			});
+		}
+
+		// Check if admin exists
+		const adminUser = await User.findById(adminId);
+		if (!adminUser) {
+			return res.status(404).json({ message: "Admin not found" });
+		}
+
+		// Update the room
+		const updatedRoom = await Room.findOneAndUpdate(
+			{ roomNumber },
+			{
+				$set: {
+					roomType,
+					pricePerNight,
+					capacity,
+					description,
+					status,
+					currentBooking,
+					updatedBy: adminId, // ✅ correct field name
+				},
+			},
+			{ new: true } // ✅ returns updated room
+		);
+
+		if (!updatedRoom) {
+			return res.status(404).json({ message: "Room not found" });
+		}
+
+		return res.status(200).json({
+			message: "Room updated successfully",
+			room: updatedRoom,
+		});
+	} catch (error) {
+		console.error("Error updating room:", error.message);
+		return res.status(500).json({ message: "Failed to update room" });
+	}
+};
+
+const deleteRoom = async (req, res) => {
+	try {
+		const { roomNumber } = req.body;
+		if (!roomNumber) {
+			res
+				.status(204)
+				.send({ message: "please enter a roomNumber you want to delete" });
+		}
+		const deletedRoom = await Room.findOneAndDelete({ roomNumber });
+
+		if (!deletedRoom) {
+			res.status(400).send({ message: "error occurred while deleting a room" });
+		}
+
+		res.status(200).send({ message: "room deletion successful" });
+	} catch (error) {
+		console.error("failed to delete room", error);
+		res.send({ message: "failed to delete a  room", error: error.message });
+	}
+};
+module.exports = { createRoom, updateRoom, deleteRoom };
