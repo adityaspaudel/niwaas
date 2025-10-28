@@ -129,11 +129,29 @@ const getRoom = async (req, res) => {
   try {
     const { adminId } = req.params;
 
-    const data = await Room.find({ createdBy: adminId });
+    const roomData = await Room.find({ createdBy: adminId });
 
-    res.send({ data });
+    res.send({ message: "data sent successfully", roomData });
   } catch (error) {
     console.error(error);
   }
 };
-module.exports = { createRoom, updateRoom, deleteRoom, getRoom };
+
+const getSingleRoomData = async (req, res) => {
+  try {
+    const { roomId } = req.params;
+
+    const singleRoomData = await Room.findOne({ _id: roomId });
+    if (!singleRoomData) {
+      res.send({ message: "couldn`t find Room" });
+    }
+    res
+      .status(200)
+      .send({ message: "room fetched successfully", singleRoomData });
+
+  } catch (error) {
+    console.error("could not send room data");
+    res.json({ message: "serverError, couldn`t send room data" });
+  }
+};
+module.exports = { createRoom, updateRoom, deleteRoom, getRoom ,getSingleRoomData};
