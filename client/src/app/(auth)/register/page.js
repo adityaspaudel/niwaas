@@ -32,98 +32,119 @@ const RegistrationForm = () => {
 	});
 	const [apiMessage, setApiMessage] = useState(null);
 	return (
-		<div className="flex flex-col content-center items-center h-screen w-screen bg-white text-black">
-			<h1>Sign Up</h1>
-			<Formik
-				initialValues={formData}
-				validationSchema={signupSchema}
-				onSubmit={async (values) => {
-					await sleep(500);
-					alert(JSON.stringify(values, null, 2));
-
-					try {
-						const response = await fetch(
-							`http://localhost:8000/user/userRegistration`,
-							{
-								method: "POST",
-								headers: { "Content-Type": "application/json" },
-								body: JSON.stringify(values),
-							}
-						);
-
-						const data = await response.json();
-						// console.log(data);
-						const msg = await data.message;
-						if (!response.ok) throw new Error("failed to post formData");
-						console.log(msg);
-						// alert(`form submitted`);
-						setFormData({
-							fullName: "",
-							username: "",
-							email: "",
-							password: "",
-							role: "guest",
-						});
-
-						setApiMessage(msg);
-					} catch (error) {
-						console.error("could not submit registration form data", error);
-						setApiMessage(error.message);
-					} finally {
-						setTimeout(() => setApiMessage(null), [5000]);
-					}
-				}}
-			>
-				{({ isSubmitting, touched, errors }) => (
-					<Form className="flex flex-col content-center items-center h-screen w-screen bg-white text-black">
-						<label htmlFor="fullName">FullName</label>
-						<Field name="fullName" placeholder="Jane" />
-						<div className="text-red-400 text-xs">
-							{touched.fullName && errors.fullName ? (
-								<div>{errors.fullName}</div>
-							) : null}
-						</div>
-						<label htmlFor="username">Username</label>
-						<Field name="username" placeholder="Doe" />
-						<div className="text-red-400 text-xs">
-							{touched.username && errors.username ? (
-								<div>{errors.username}</div>
-							) : null}
-						</div>
-						<label htmlFor="email">Email</label>
-						<Field name="email" placeholder="jane@acme.com" type="email" />
-						<div className="text-red-400 text-xs">
-							{touched.email && errors.email ? <div>{errors.email}</div> : null}
-						</div>
-						<label>password</label>
-						<Field name="password" placeholder="password" type="password" />
-						<div className="text-red-400 text-xs">
-							{touched.password && errors.password ? (
-								<div>{errors.password}</div>
-							) : null}
-						</div>
-						<Field as="select" name="role">
-							<option value="guest">guest</option>
-							<option value="admin">admin</option>
-							<option value="staff">staff</option>
-						</Field>
-						{touched.role && errors.role ? <div>{errors.role}</div> : null}
-						<button type="submit" disabled={isSubmitting}>
-							{isSubmitting ? "Submitting..." : "Submit"}
-						</button>
-
-						{apiMessage && (
-							<div>
-								{apiMessage === "registration successful" ? (
-									<div className="text-green-400">{apiMessage}</div>
-								) : (
-									<div className="text-red-400">{apiMessage}</div>
-								)}
+		<div className="flex flex-col justify-center items-center h-screen w-screen bg-white text-black">
+			<div className="flex flex-col items-center content-start bg-pink-200 gap-2 shadow hover:shadow-md shadow-black  p-8 min-h-1/2 w-1/3">
+				<h1 className="text-start flex flex-col items-start content-start w-full font-bold">
+					Sign Up
+				</h1>
+				<Formik
+					className="flex flex-col gap-2 bg-pink-200"
+					initialValues={formData}
+					validationSchema={signupSchema}
+					onSubmit={async (values) => {
+						await sleep(500);
+						alert(JSON.stringify(values, null, 2));
+						try {
+							const response = await fetch(
+								`http://localhost:8000/user/userRegistration`,
+								{
+									method: "POST",
+									headers: { "Content-Type": "application/json" },
+									body: JSON.stringify(values),
+								}
+							);
+							const data = await response.json();
+							// console.log(data);
+							const msg = await data.message;
+							if (!response.ok) throw new Error("failed to post formData");
+							console.log(msg);
+							// alert(`form submitted`);
+							setFormData({
+								fullName: "",
+								username: "",
+								email: "",
+								password: "",
+								role: "guest",
+							});
+							setApiMessage(msg);
+						} catch (error) {
+							console.error("could not submit registration form data", error);
+							setApiMessage(error.message);
+						} finally {
+							setTimeout(() => setApiMessage(null), [5000]);
+						}
+					}}
+				>
+					{({ isSubmitting, touched, errors }) => (
+						<Form className="flex flex-col gap-2 content-start items-start text-black w-full">
+							<div className=" flex flex-col">
+								<label htmlFor="fullName">FullName</label>
+								<Field name="fullName" className="text-sm" placeholder="Jane" />
+								<div className="text-red-400 text-xs">
+									{touched.fullName && errors.fullName ? (
+										<div>{errors.fullName}</div>
+									) : null}
+								</div>
 							</div>
-						)}
-					</Form>
-				)}
-			</Formik>
+							<div className="flex flex-col">
+								<label htmlFor="username">Username</label>
+								<Field name="username" className="text-sm" placeholder="Jane" />
+								<div className="text-red-400 text-xs">
+									{touched.username && errors.username ? (
+										<div>{errors.username}</div>
+									) : null}
+								</div>
+							</div>
+							<div className="flex flex-col">
+								<label htmlFor="email">Email</label>
+								<Field
+									name="email"
+									className="text-sm"
+									placeholder="jane@acme.com"
+									type="email"
+								/>
+								<div className="text-red-400 text-xs">
+									{touched.email && errors.email ? (
+										<div>{errors.email}</div>
+									) : null}
+								</div>
+							</div>
+							<div className="flex flex-col">
+								<label>password</label>
+								<Field
+									name="password"
+									className="text-sm"
+									placeholder="password"
+									type="password"
+								/>
+								<div className="text-red-400 text-xs">
+									{touched.password && errors.password ? (
+										<div>{errors.password}</div>
+									) : null}
+								</div>
+							</div>
+							<Field as="select" className="text-sm" name="role">
+								<option value="guest">guest</option>
+								<option value="admin">admin</option>
+								<option value="staff">staff</option>
+							</Field>
+							{touched.role && errors.role ? <div>{errors.role}</div> : null}
+							<button className="bg-pink-500 hover:bg-pink-600 text-white px-2 rounded-sm cursor-pointer" type="submit" disabled={isSubmitting}>
+								{isSubmitting ? "Signing up" : "Sign up"}
+							</button>
+							{apiMessage && (
+								<div>
+									{apiMessage === "registration successful" ? (
+										<div className="text-green-400">{apiMessage}</div>
+									) : (
+										<div className="text-red-400">{apiMessage}</div>
+									)}
+								</div>
+							)}
+						</Form>
+					)}
+				</Formik>
+			</div>
 		</div>
 	);
 };
