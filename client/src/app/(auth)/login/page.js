@@ -83,7 +83,7 @@ const LoginForm = () => {
                 />
               </div>
               <button
-                className="mt-8 text text-gray-50 bg-pink-500 transition hover:bg-pink-600 rounded-sm px-2"
+                className="mt-8 text text-gray-50 bg-pink-500 transition hover:bg-pink-600 rounded-sm px-2 cursor-pointer"
                 type="submit"
                 disabled={isSubmitting}
               >
