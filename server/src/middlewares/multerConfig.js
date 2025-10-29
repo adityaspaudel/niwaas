@@ -7,7 +7,7 @@ const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const uploadPath = path.join(__dirname, "../uploads/rooms");
 
-    // ✅ Create directory if it doesn't exist
+    // Create directory if it doesn't exist
     fs.mkdirSync(uploadPath, { recursive: true });
 
     cb(null, uploadPath);

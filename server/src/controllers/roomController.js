@@ -23,31 +23,32 @@ const createRoom = async (req, res) => {
 
     // Ensure admin exists
     const adminUser = await User.findById(adminId);
-    if (!adminUser) {
-      return res.status(404).json({ message: "Admin not found" });
-    }
+    if (!adminUser) return res.status(404).json({ message: "Admin not found" });
 
     // Check if room already exists
     const existingRoom = await Room.findOne({ roomNumber });
-    if (existingRoom) {
+    if (existingRoom)
       return res.status(409).json({ message: "Room already exists" });
-    }
 
-    // Handle images from multer
+    // Handle images from multer: store relative paths
     const imagesUrl =
-      req.files?.map((file) => file.path.replace(/\\/g, "/")) || [];
+      req.files?.map((file) => {
+        // Make path relative to 'uploads' folder
+        const relativePath = file.path.split("uploads")[1].replace(/\\/g, "/");
+        return relativePath.startsWith("/")
+          ? relativePath.slice(1)
+          : relativePath;
+      }) || [];
 
-    if (imagesUrl.length === 0) {
+    if (imagesUrl.length === 0)
       return res
         .status(400)
         .json({ message: "Please upload at least one image" });
-    }
 
-    if (imagesUrl.length > 5) {
+    if (imagesUrl.length > 5)
       return res
         .status(400)
         .json({ message: "You can upload up to 5 images only" });
-    }
 
     // Create new room
     const newRoom = await Room.create({
@@ -56,7 +57,7 @@ const createRoom = async (req, res) => {
       pricePerNight,
       capacity,
       description,
-      imagesUrl,
+      imagesUrl, // relative paths only
       createdBy: adminId,
     });
 
@@ -71,6 +72,7 @@ const createRoom = async (req, res) => {
       .json({ message: "Failed to create room", error: error.message });
   }
 };
+
 
 const updateRoom = async (req, res) => {
   try {

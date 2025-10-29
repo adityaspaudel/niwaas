@@ -37,6 +37,10 @@ nodemon.json
 .DS_Store
 Thumbs.db
 
+
+# upload folder
+uploads/
+
 # MongoDB data dumps (if any)
 dump/
 data/

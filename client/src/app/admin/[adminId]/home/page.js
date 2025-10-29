@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
@@ -152,88 +153,115 @@ const AdminHome = () => {
           </button>
         </form>
       </div>
-
       {roomData && (
-        <div>
-          <div>My Rooms</div>
-          <div className="flex gap-2 flex-wrap ">
-            {roomData.map((values, index) => (
-              <div key={values._id}>
-                <div className="max-w-md mx-auto bg-pink-200 shadow-md rounded-2xl p-6 border border-gray-100">
-                  <div className="flex flex-col gap-2 text-sm text-gray-700">
-                    <Link
-                      href={`/admin/${adminId}/home/${values._id}/roomDetails`}
+        <div className="p-4">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            My Rooms
+          </h2>
+
+          <div className="flex flex-wrap gap-6">
+            {roomData && (
+              <div className="p-4">
+                <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+                  My Rooms
+                </h2>
+
+                <div className="flex flex-wrap gap-6">
+                  {roomData.map((room) => (
+                    <div
+                      key={room._id}
+                      className="w-full sm:w-[300px] bg-white shadow-md rounded-2xl overflow-hidden hover:shadow-lg transition-transform transform hover:-translate-y-1"
                     >
-                      go to room
-                    </Link>
-                    <div>
-                      <span className="font-medium text-gray-900">
-                        Room Number:
-                      </span>{" "}
-                      {values?.roomNumber}
+                      {/* Room Image */}
+                      <div className="relative w-full h-48">
+                        {room.imagesUrl && room.imagesUrl.length > 0 ? (
+                          <Image
+                            src={`http://localhost:8000/uploads/${room?.imagesUrl[0]}`}
+                            alt={`Room ${room.roomNumber}`}
+                            fill
+                            className="object-cover rounded-md"
+                            unoptimized
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm">
+                            No Image
+                          </div>
+                        )}
+                      </div>
+                      {/* Room Details */}
+                      <div className="p-4 flex flex-col gap-2 text-sm text-gray-700">
+                        <div className="flex justify-between items-center">
+                          <h3 className="font-semibold text-gray-900 text-lg">
+                            Room {room.roomNumber}
+                          </h3>
+                          <span
+                            className={`px-2 py-1 rounded-full text-xs font-medium ${
+                              room.status === "Available"
+                                ? "bg-green-100 text-green-700"
+                                : "bg-red-100 text-red-700"
+                            }`}
+                          >
+                            {room.status}
+                          </span>
+                        </div>
+
+                        <div>
+                          <span className="font-medium text-gray-900">
+                            Type:
+                          </span>{" "}
+                          {room.roomType}
+                        </div>
+                        <div>
+                          <span className="font-medium text-gray-900">
+                            Price:
+                          </span>{" "}
+                          Rs.
+                          {room.pricePerNight}
+                        </div>
+                        <div>
+                          <span className="font-medium text-gray-900">
+                            Capacity:
+                          </span>{" "}
+                          {room.capacity} Guests
+                        </div>
+                        <div className="truncate">
+                          <span className="font-medium text-gray-900">
+                            Description:
+                          </span>{" "}
+                          {room.description}
+                        </div>
+                        <div>
+                          <span className="font-medium text-gray-900">
+                            Current Booking:
+                          </span>{" "}
+                          {room.currentBooking || "—"}
+                        </div>
+
+                        <div className="text-xs text-gray-500 mt-2">
+                          <div>
+                            Created:{" "}
+                            {new Date(room.createdAt).toLocaleDateString()}
+                          </div>
+                          <div>
+                            Updated:{" "}
+                            {new Date(room.updatedAt).toLocaleDateString()}
+                          </div>
+                        </div>
+
+                        {/* View Details */}
+                        <Link
+                          href={`/admin/${adminId}/home/${room._id}/roomDetails`}
+                          className="mt-3 inline-block bg-pink-500 hover:bg-pink-600 text-white text-center text-sm py-2 rounded-md font-medium transition"
+                        >
+                          View Details
+                        </Link>
+                      </div>
                     </div>
-                    <div>
-                      <span className="font-medium text-gray-900">
-                        Room Type:
-                      </span>{" "}
-                      {values?.roomType}
-                    </div>
-                    <div>
-                      <span className="font-medium text-gray-900">
-                        Price Per Night:
-                      </span>{" "}
-                      Rs.{values?.pricePerNight}
-                    </div>
-                    <div>
-                      <span className="font-medium text-gray-900">
-                        Capacity:
-                      </span>{" "}
-                      {values?.capacity} Guests
-                    </div>
-                    <div>
-                      <span className="font-medium text-gray-900">
-                        Description:
-                      </span>{" "}
-                      {values?.description}
-                    </div>
-                    <div>
-                      <span className="font-medium text-gray-900">Status:</span>{" "}
-                      <span
-                        className={`px-2 py-0.5 rounded-full text-xs font-medium ${
-                          values?.status === "available"
-                            ? "bg-green-100 text-red-700"
-                            : "bg-red-100 text-green-700"
-                        }`}
-                      >
-                        {values?.status}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="font-medium text-gray-900">
-                        Current Booking:
-                      </span>{" "}
-                      {values?.currentBooking || "—"}
-                    </div>
-                    <div>
-                      <span className="font-medium text-gray-900">
-                        Created At:
-                      </span>{" "}
-                      {new Date(values?.createdAt).toLocaleString()}
-                    </div>
-                    <div>
-                      <span className="font-medium text-gray-900">
-                        Updated At:
-                      </span>{" "}
-                      {new Date(
-                        roomData?.singleRoomData?.updatedAt
-                      ).toLocaleString()}
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
-            ))}
+            )}
           </div>
-          {/* <div>{JSON.stringify(roomData, 2, 2)}</div> */}
         </div>
       )}
     </main>

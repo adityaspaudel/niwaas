@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const dotenv = require("dotenv");
+const path = require("path");
 
 dotenv.config();
 const cors = require("cors");
@@ -12,7 +13,7 @@ const roomRoute = require("./routes/roomRoute");
 // middleware
 app.use(express.json());
 app.use(cors());
-app.use("/uploads", express.static("uploads"));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // database connection
 dbConnect();
@@ -25,5 +26,5 @@ app.use(roomRoute);
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
-	console.log(`application is running on port: ${PORT}`);
+  console.log(`application is running on port: ${PORT}`);
 });
