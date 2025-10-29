@@ -32,35 +32,70 @@ const RoomDetails = () => {
   return (
     <main className="flex content-center items-center bg-gray-100 text-black min-h-screen w-screen">
       <div className="flex flex-col content-center items-center">
-        <div>RoomDetails</div>
         <div>
           {roomData && (
-            <div>
-              <div>
-                <div>Room Number: {roomData?.singleRoomData?.roomNumber}</div>
-                <div>Room Type: {roomData?.singleRoomData?.roomType}</div>{" "}
+            <div className="max-w-md mx-auto bg-white shadow-md rounded-2xl p-6 border border-gray-100">
+              <div className="flex flex-col gap-2 text-sm text-gray-700">
+                <h2 className="text-lg font-semibold text-gray-800 mb-4">
+                  Room Details
+                </h2>{" "}
                 <div>
-                  Price Per Night: {roomData?.singleRoomData?.pricePerNight}
-                </div>{" "}
-                <div>Capacity: {roomData?.singleRoomData?.capacity}</div>{" "}
-                <div>Description: {roomData?.singleRoomData?.description}</div>{" "}
-                <div>Status: {roomData?.singleRoomData?.status}</div>{" "}
-                <div>{roomData?.singleRoomData?.currentBooking}</div>{" "}
+                  <span className="font-medium text-gray-900">
+                    Room Number:
+                  </span>{" "}
+                  {roomData?.singleRoomData?.roomNumber}
+                </div>
                 <div>
-                  Created By:{" "}
+                  <span className="font-medium text-gray-900">Room Type:</span>{" "}
+                  {roomData?.singleRoomData?.roomType}
+                </div>
+                <div>
+                  <span className="font-medium text-gray-900">
+                    Price Per Night:
+                  </span>{" "}
+                  Rs.{roomData?.singleRoomData?.pricePerNight}
+                </div>
+                <div>
+                  <span className="font-medium text-gray-900">Capacity:</span>{" "}
+                  {roomData?.singleRoomData?.capacity} Guests
+                </div>
+                <div>
+                  <span className="font-medium text-gray-900">
+                    Description:
+                  </span>{" "}
+                  {roomData?.singleRoomData?.description}
+                </div>
+                <div>
+                  <span className="font-medium text-gray-900">Status:</span>{" "}
+                  <span
+                    className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                      roomData?.singleRoomData?.status === "available"
+                        ? "bg-green-100 text-red-700"
+                        : "bg-red-100 text-green-700"
+                    }`}
+                  >
+                    {roomData?.singleRoomData?.status}
+                  </span>
+                </div>
+                <div>
+                  <span className="font-medium text-gray-900">
+                    Current Booking:
+                  </span>{" "}
+                  {roomData?.singleRoomData?.currentBooking || "—"}
+                </div>
+                <div>
+                  <span className="font-medium text-gray-900">Created At:</span>{" "}
                   {new Date(
                     roomData?.singleRoomData?.createdAt
                   ).toLocaleString()}
-                </div>{" "}
-                <div>Created By: {roomData?.singleRoomData?.createdBy}</div>{" "}
+                </div>
                 <div>
-                  Updated At:{" "}
+                  <span className="font-medium text-gray-900">Updated At:</span>{" "}
                   {new Date(
                     roomData?.singleRoomData?.updatedAt
                   ).toLocaleString()}
                 </div>
               </div>
-              {/* <pre>{JSON.stringify(roomData, 2, 2)}</pre> */}
             </div>
           )}
         </div>

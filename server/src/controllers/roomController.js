@@ -6,9 +6,9 @@ const createRoom = async (req, res) => {
   try {
     const { roomNumber, roomType, pricePerNight, capacity, description } =
       req.body;
-
     const { adminId } = req.params;
 
+    // Basic validation
     if (
       !roomNumber ||
       !roomType ||
@@ -16,35 +16,63 @@ const createRoom = async (req, res) => {
       !capacity ||
       !description
     ) {
-      res.status(204).send({ message: "please enter all fields" });
+      return res
+        .status(400)
+        .json({ message: "Please fill all required fields" });
     }
 
-    // check rooms if it already exists
-    const existingRoomByRoomNumber = await Room.findOne({ roomNumber });
-
-    if (existingRoomByRoomNumber) {
-      res.status(409).send({ message: "room already exists" });
-    }
-
+    // Ensure admin exists
     const adminUser = await User.findById(adminId);
-    if (!adminUser) {
-      return res.status(404).json({ message: "Admin not found" });
-    }
+    if (!adminUser) return res.status(404).json({ message: "Admin not found" });
+
+    // Check if room already exists
+    const existingRoom = await Room.findOne({ roomNumber });
+    if (existingRoom)
+      return res.status(409).json({ message: "Room already exists" });
+
+    // Handle images from multer: store relative paths
+    const imagesUrl =
+      req.files?.map((file) => {
+        // Make path relative to 'uploads' folder
+        const relativePath = file.path.split("uploads")[1].replace(/\\/g, "/");
+        return relativePath.startsWith("/")
+          ? relativePath.slice(1)
+          : relativePath;
+      }) || [];
+
+    if (imagesUrl.length === 0)
+      return res
+        .status(400)
+        .json({ message: "Please upload at least one image" });
+
+    if (imagesUrl.length > 5)
+      return res
+        .status(400)
+        .json({ message: "You can upload up to 5 images only" });
+
+    // Create new room
     const newRoom = await Room.create({
       roomNumber,
       roomType,
       pricePerNight,
       capacity,
       description,
+      imagesUrl, // relative paths only
       createdBy: adminId,
     });
 
-    res.status(200).send({ message: "room created successfully", newRoom });
+    res.status(201).json({
+      message: "Room created successfully",
+      room: newRoom,
+    });
   } catch (error) {
-    console.error("room creation failed");
-    res.status(500).send({ message: "failed to create a room" });
+    console.error("Room creation failed:", error);
+    res
+      .status(500)
+      .json({ message: "Failed to create room", error: error.message });
   }
 };
+
 
 const updateRoom = async (req, res) => {
   try {
@@ -148,10 +176,15 @@ const getSingleRoomData = async (req, res) => {
     res
       .status(200)
       .send({ message: "room fetched successfully", singleRoomData });
-
   } catch (error) {
     console.error("could not send room data");
     res.json({ message: "serverError, couldn`t send room data" });
   }
 };
-module.exports = { createRoom, updateRoom, deleteRoom, getRoom ,getSingleRoomData};
+module.exports = {
+  createRoom,
+  updateRoom,
+  deleteRoom,
+  getRoom,
+  getSingleRoomData,
+};
