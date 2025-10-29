@@ -62,7 +62,6 @@ bower_components/
 # Optional: if you use uploads
 uploads/
 uploads/*
-!uploads/.gitkeep
 
 # Misc
 *.swp
