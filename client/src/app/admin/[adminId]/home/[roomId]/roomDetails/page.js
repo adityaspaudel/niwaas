@@ -32,13 +32,13 @@ const RoomDetails = () => {
   return (
     <main className="flex content-center items-center bg-gray-100 text-black min-h-screen w-screen">
       <div className="flex flex-col content-center items-center">
-        <h2 className="text-lg font-semibold text-gray-800 mb-4">
-          Room Details
-        </h2>{" "}
         <div>
           {roomData && (
             <div className="max-w-md mx-auto bg-white shadow-md rounded-2xl p-6 border border-gray-100">
               <div className="flex flex-col gap-2 text-sm text-gray-700">
+                <h2 className="text-lg font-semibold text-gray-800 mb-4">
+                  Room Details
+                </h2>{" "}
                 <div>
                   <span className="font-medium text-gray-900">
                     Room Number:
@@ -53,7 +53,7 @@ const RoomDetails = () => {
                   <span className="font-medium text-gray-900">
                     Price Per Night:
                   </span>{" "}
-                  ${roomData?.singleRoomData?.pricePerNight}
+                  Rs.{roomData?.singleRoomData?.pricePerNight}
                 </div>
                 <div>
                   <span className="font-medium text-gray-900">Capacity:</span>{" "}
@@ -70,8 +70,8 @@ const RoomDetails = () => {
                   <span
                     className={`px-2 py-0.5 rounded-full text-xs font-medium ${
                       roomData?.singleRoomData?.status === "available"
-                        ? "bg-green-100 text-green-700"
-                        : "bg-red-100 text-red-700"
+                        ? "bg-green-100 text-red-700"
+                        : "bg-red-100 text-green-700"
                     }`}
                   >
                     {roomData?.singleRoomData?.status}
