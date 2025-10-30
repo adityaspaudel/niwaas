@@ -73,7 +73,6 @@ const createRoom = async (req, res) => {
   }
 };
 
-
 const updateRoom = async (req, res) => {
   try {
     const {
@@ -86,6 +85,7 @@ const updateRoom = async (req, res) => {
       currentBooking,
     } = req.body;
 
+    console.log(req.body);
     const { adminId } = req.params;
 
     // Validate input
