@@ -78,7 +78,7 @@ const AdminHome = () => {
 
   return (
     <main className="bg-gray-100 text-black text-sm">
-      <div>Admin Home</div>
+      {/* <div>Admin Home</div> */}
 
       {/* Add Room Form */}
       <div>
@@ -237,7 +237,7 @@ const AdminHome = () => {
         </form>
       </div>
 
-      {/* My Rooms */}
+      {/* My Rooms ----------------------------------*/}
       {roomData && (
         <div className="p-4">
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">
@@ -247,7 +247,7 @@ const AdminHome = () => {
             {roomData.map((room) => (
               <div
                 key={room._id}
-                className="w-full sm:w-[300px] bg-white shadow-md rounded-2xl overflow-hidden hover:shadow-lg transition-transform transform hover:-translate-y-1"
+                className="w-full sm:w-[300px] bg-white shadow-md rounded-2xl overflow-hidden hover:shadow-lg transition-transform transform hover:-translate-y-1 "
               >
                 <div className="relative w-full h-48">
                   {room.imagesUrl && room.imagesUrl.length > 0 ? (
@@ -289,15 +289,7 @@ const AdminHome = () => {
                   </div>
                   <div>Current Booking: {room.currentBooking || "—"}</div>
 
-                  <div className="text-xs text-gray-500 mt-2">
-                    <div>
-                      Created: {new Date(room.createdAt).toLocaleDateString()}
-                    </div>
-                    <div>
-                      Updated: {new Date(room.updatedAt).toLocaleDateString()}
-                    </div>
-                  </div>
-
+             
                   <Link
                     href={`/admin/${adminId}/home/${room._id}/roomDetails`}
                     className="mt-3 inline-block bg-pink-500 hover:bg-pink-600 text-white text-center text-sm py-2 rounded-md font-medium transition"
