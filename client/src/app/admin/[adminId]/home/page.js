@@ -79,7 +79,7 @@ const AdminHome = () => {
   return (
     <main className="bg-gray-100 text-black text-sm">
       {/* <div>Admin Home</div> */}
-
+      {errorMessage}
       {/* Add Room Form */}
       <div>
         <form

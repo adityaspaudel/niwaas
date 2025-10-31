@@ -12,7 +12,7 @@ const {
 const upload = require("../middlewares/multerConfig");
 
 router.post("/room/:adminId/createRoom", upload.array("images", 5), createRoom);
-router.put("/room/:adminId/updateRoom", updateRoom);
+router.put("/room/:adminId/updateRoom", upload.array("images", 5), updateRoom);
 router.delete("/room/:adminId/deleteRoom", deleteRoom);
 router.get("/room/:adminId/getRoom", getRoom);
 router.get("/room/:roomId/getSingleRoomData", getSingleRoomData);
