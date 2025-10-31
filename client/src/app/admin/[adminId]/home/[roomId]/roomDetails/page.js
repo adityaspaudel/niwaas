@@ -6,6 +6,7 @@ import React, { memo, useCallback, useEffect, useState } from "react";
 
 const RoomDetails = () => {
   const { adminId, roomId } = useParams();
+
   const [roomData, setRoomData] = useState(null);
   const [editProduct, setEditProduct] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -18,19 +19,20 @@ const RoomDetails = () => {
     status: "",
     currentBooking: "",
   });
+  const [editImages, setEditImages] = useState([]);
 
-  //  Fetch Single Room Data
+  // Fetch Single Room Data
   const getSingleRoom = useCallback(async () => {
     try {
       const response = await fetch(
         `http://localhost:8000/room/${roomId}/getSingleRoomData`
       );
       const data = await response.json();
-      setErrorMessage(data.message);
+
       if (!response.ok) throw new Error(data.message);
       setRoomData(data);
 
-      // prefill edit form with fetched data
+      // Prefill edit form
       const room = data?.singleRoomData;
       if (room) {
         setRoomEditValue({
@@ -45,6 +47,9 @@ const RoomDetails = () => {
       }
     } catch (error) {
       console.error("Failed to get single room data", error);
+      setErrorMessage("Failed to fetch room data.");
+    } finally {
+      setTimeout(() => setErrorMessage(""), 5000);
     }
   }, [roomId]);
 
@@ -54,24 +59,41 @@ const RoomDetails = () => {
 
   const room = roomData?.singleRoomData;
 
-  //  Handle input changes
+  // Handle input changes
   const handleRoomEditChange = (e) => {
     const { name, value } = e.target;
     setRoomEditValue((prev) => ({ ...prev, [name]: value }));
   };
 
-  //  Handle Update Room
+  const handleRoomImagesChange = (e) => {
+    const files = Array.from(e.target.files);
+    setEditImages(files);
+  };
+
+  // Handle Update Room
   const handleRoomUpdate = async (e) => {
     e.preventDefault();
+
     try {
+      const formData = new FormData();
+
+      // Append text fields
+      Object.keys(roomEditValue).forEach((key) => {
+        formData.append(key, roomEditValue[key]);
+      });
+
+      // Append images (if any)
+      if (editImages.length > 0) {
+        editImages.forEach((file) => formData.append("images", file));
+      }
+
       const res = await fetch(
         `http://localhost:8000/room/${adminId}/updateRoom`,
         {
           method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(roomEditValue),
+          // headers: { "Content-Type": "multipart/form-data" },
+
+          body: formData,
         }
       );
 
@@ -80,7 +102,8 @@ const RoomDetails = () => {
       if (res.ok) {
         alert("Room updated successfully!");
         setEditProduct(false);
-        getSingleRoom(); // refresh data
+        setEditImages([]);
+        getSingleRoom(); // refresh UI
       } else {
         alert(data.message || "Failed to update room");
       }
@@ -89,6 +112,8 @@ const RoomDetails = () => {
       alert("Error updating room");
     }
   };
+
+  // Delete Room
   const deleteRoom = async (e, roomNumber) => {
     e.preventDefault();
     try {
@@ -96,25 +121,24 @@ const RoomDetails = () => {
         `http://localhost:8000/room/${adminId}/deleteRoom`,
         {
           method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
           body: JSON.stringify({ roomNumber }),
         }
       );
       const data = await response.json();
       if (!response.ok) throw new Error(data.message);
 
-      alert(`room deleted successfully`);
+      alert(`Room deleted successfully`);
     } catch (error) {
-      console.error(`could not delete a room ${roomNumber}`, error);
+      console.error(`Could not delete room ${roomNumber}`, error);
     } finally {
+      setTimeout(() => setErrorMessage(""), 5000);
     }
   };
 
   return (
     <main className="flex justify-center items-center min-h-screen bg-gray-100 text-gray-900 px-4 py-10">
       {errorMessage && <div>{errorMessage}</div>}
+
       {room && (
         <div className="w-full max-w-2xl bg-white shadow-lg rounded-2xl p-6 md:p-8 border border-gray-200">
           {/* Header */}
@@ -278,6 +302,33 @@ const RoomDetails = () => {
                   className="bg-white border px-2"
                 />
               </div>
+
+              <div className="flex flex-col">
+                <label className="font-medium">Room Images:</label>
+                <input
+                  name="images"
+                  type="file"
+                  multiple
+                  onChange={handleRoomImagesChange}
+                  className="bg-white border px-2"
+                />
+              </div>
+
+              {/* Preview Selected Images */}
+              {editImages.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {editImages.map((file, idx) => (
+                    <Image
+                      key={idx}
+                      src={URL.createObjectURL(file)}
+                      alt="preview"
+                      className="w-24 h-24 object-cover rounded-md"
+                      height={200}
+                      width={200}
+                    />
+                  ))}
+                </div>
+              )}
 
               <button
                 type="submit"

@@ -100,10 +100,37 @@ const updateRoom = async (req, res) => {
       return res.status(404).json({ message: "Admin not found" });
     }
 
-    // 🔷 Convert empty string to null
+    // Convert empty string to null
     const currentBookingValue = currentBooking ? currentBooking : null;
 
-    // 🔷Update the room
+    // Handle new images (if uploaded)
+    let imagesUrl = [];
+    if (req.files && req.files.length > 0) {
+      imagesUrl = req.files.map((file) => {
+        const relativePath = file.path.split("uploads")[1].replace(/\\/g, "/");
+        return relativePath.startsWith("/")
+          ? relativePath.slice(1)
+          : relativePath;
+      });
+    }
+
+    // Find existing room
+    const room = await Room.findOne({ roomNumber });
+    if (!room) {
+      return res.status(404).json({ message: "Room not found" });
+    }
+
+    // If no new images uploaded, keep existing images
+    const finalImages = imagesUrl.length > 0 ? imagesUrl : room.imagesUrl;
+
+    // Limit images
+    if (finalImages.length > 5) {
+      return res
+        .status(400)
+        .json({ message: "You can upload up to 5 images only" });
+    }
+
+    // Update room
     const updatedRoom = await Room.findOneAndUpdate(
       { roomNumber },
       {
@@ -113,16 +140,13 @@ const updateRoom = async (req, res) => {
           capacity,
           description,
           status,
+          imagesUrl: finalImages,
           currentBooking: currentBookingValue,
           updatedBy: adminId,
         },
       },
       { new: true }
     );
-
-    if (!updatedRoom) {
-      return res.status(404).json({ message: "Room not found" });
-    }
 
     return res.status(200).json({
       message: "Room updated successfully",
@@ -180,12 +204,10 @@ const getSingleRoomData = async (req, res) => {
     const singleRoomData = await Room.findById(roomId); // cleaner & optimized
 
     if (!singleRoomData) {
-      return res
-        .status(404)
-        .json({
-          message:
-            "Couldn't find room, room is either not created or deleted already",
-        });
+      return res.status(404).json({
+        message:
+          "Couldn't find room, room is either not created or deleted already",
+      });
       // ✅ use `return` to stop code here
     }
 
