@@ -100,10 +100,10 @@ const updateRoom = async (req, res) => {
       return res.status(404).json({ message: "Admin not found" });
     }
 
-    // ✅ Convert empty string to null
+    // 🔷 Convert empty string to null
     const currentBookingValue = currentBooking ? currentBooking : null;
 
-    // Update the room
+    // 🔷Update the room
     const updatedRoom = await Room.findOneAndUpdate(
       { roomNumber },
       {
@@ -133,27 +133,34 @@ const updateRoom = async (req, res) => {
     return res.status(500).json({ message: "Failed to update room" });
   }
 };
+
+// 🔷 delete room
 const deleteRoom = async (req, res) => {
   try {
     const { roomNumber } = req.body;
+
+    console.log("roomNUmer", roomNumber);
     if (!roomNumber) {
-      res
-        .status(204)
-        .send({ message: "please enter a roomNumber you want to delete" });
+      return res
+        .status(400)
+        .json({ message: "Please enter a roomNumber you want to delete" });
     }
+
     const deletedRoom = await Room.findOneAndDelete({ roomNumber });
 
     if (!deletedRoom) {
-      res.status(400).send({ message: "error occurred while deleting a room" });
+      return res.status(404).json({ message: "Room not found" });
     }
 
-    res.status(200).send({ message: "room deletion successful" });
+    res.status(200).json({ message: "Room deletion successful" });
   } catch (error) {
-    console.error("failed to delete room", error);
-    res.send({ message: "failed to delete a  room", error: error.message });
+    console.error("Failed to delete room:", error);
+    res
+      .status(500)
+      .json({ message: "Failed to delete room", error: error.message });
   }
 };
-
+// 🔷 get room
 const getRoom = async (req, res) => {
   try {
     const { adminId } = req.params;
@@ -165,21 +172,32 @@ const getRoom = async (req, res) => {
     console.error(error);
   }
 };
-
+// 🔷 get single room data
 const getSingleRoomData = async (req, res) => {
   try {
     const { roomId } = req.params;
 
-    const singleRoomData = await Room.findOne({ _id: roomId });
+    const singleRoomData = await Room.findById(roomId); // cleaner & optimized
+
     if (!singleRoomData) {
-      res.send({ message: "couldn`t find Room" });
+      return res
+        .status(404)
+        .json({
+          message:
+            "Couldn't find room, room is either not created or deleted already",
+        });
+      // ✅ use `return` to stop code here
     }
-    res
+
+    return res
       .status(200)
-      .send({ message: "room fetched successfully", singleRoomData });
+      .json({ message: "Room fetched successfully", singleRoomData });
   } catch (error) {
-    console.error("could not send room data");
-    res.json({ message: "serverError, couldn`t send room data" });
+    console.error("Could not send room data:", error);
+    return res.status(500).json({
+      message: "Server error — couldn't send room data",
+      error: error.message,
+    });
   }
 };
 module.exports = {
