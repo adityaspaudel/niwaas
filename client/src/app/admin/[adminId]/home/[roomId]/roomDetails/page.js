@@ -8,7 +8,7 @@ const RoomDetails = () => {
   const { adminId, roomId } = useParams();
   const [roomData, setRoomData] = useState(null);
   const [editProduct, setEditProduct] = useState(false);
-
+  const [errorMessage, setErrorMessage] = useState(null);
   const [roomEditValue, setRoomEditValue] = useState({
     roomNumber: "",
     roomType: "",
@@ -25,8 +25,9 @@ const RoomDetails = () => {
       const response = await fetch(
         `http://localhost:8000/room/${roomId}/getSingleRoomData`
       );
-      if (!response.ok) throw new Error("Response is not ok");
       const data = await response.json();
+      setErrorMessage(data.message);
+      if (!response.ok) throw new Error(data.message);
       setRoomData(data);
 
       // prefill edit form with fetched data
@@ -88,9 +89,32 @@ const RoomDetails = () => {
       alert("Error updating room");
     }
   };
+  const deleteRoom = async (e, roomNumber) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(
+        `http://localhost:8000/room/${adminId}/deleteRoom`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ roomNumber }),
+        }
+      );
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message);
+
+      alert(`room deleted successfully`);
+    } catch (error) {
+      console.error(`could not delete a room ${roomNumber}`, error);
+    } finally {
+    }
+  };
 
   return (
     <main className="flex justify-center items-center min-h-screen bg-gray-100 text-gray-900 px-4 py-10">
+      {errorMessage && <div>{errorMessage}</div>}
       {room && (
         <div className="w-full max-w-2xl bg-white shadow-lg rounded-2xl p-6 md:p-8 border border-gray-200">
           {/* Header */}
@@ -183,8 +207,11 @@ const RoomDetails = () => {
             >
               {editProduct ? "Cancel" : "Edit"}
             </button>
-            <button className="bg-red-400 cursor-pointer hover:bg-red-500 px-2 rounded-sm text-xs">
-              Delete
+            <button
+              onClick={(e) => deleteRoom(e, room.roomNumber)}
+              className="bg-red-400 cursor-pointer hover:bg-red-500 px-2 rounded-sm text-xs"
+            >
+              Delete {room?.roomNumber}
             </button>
           </div>
 
