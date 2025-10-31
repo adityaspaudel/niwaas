@@ -7,7 +7,19 @@ import React, { memo, useCallback, useEffect, useState } from "react";
 const RoomDetails = () => {
   const { adminId, roomId } = useParams();
   const [roomData, setRoomData] = useState(null);
+  const [editProduct, setEditProduct] = useState(false);
 
+  const [roomEditValue, setRoomEditValue] = useState({
+    roomNumber: "",
+    roomType: "",
+    capacity: "",
+    pricePerNight: "",
+    description: "",
+    status: "",
+    currentBooking: "",
+  });
+
+  //  Fetch Single Room Data
   const getSingleRoom = useCallback(async () => {
     try {
       const response = await fetch(
@@ -16,7 +28,20 @@ const RoomDetails = () => {
       if (!response.ok) throw new Error("Response is not ok");
       const data = await response.json();
       setRoomData(data);
-      console.log(data);
+
+      // prefill edit form with fetched data
+      const room = data?.singleRoomData;
+      if (room) {
+        setRoomEditValue({
+          roomNumber: room.roomNumber || "",
+          roomType: room.roomType || "",
+          capacity: room.capacity || "",
+          pricePerNight: room.pricePerNight || "",
+          description: room.description || "",
+          status: room.status || "",
+          currentBooking: room.currentBooking || "",
+        });
+      }
     } catch (error) {
       console.error("Failed to get single room data", error);
     }
@@ -27,6 +52,42 @@ const RoomDetails = () => {
   }, [getSingleRoom]);
 
   const room = roomData?.singleRoomData;
+
+  //  Handle input changes
+  const handleRoomEditChange = (e) => {
+    const { name, value } = e.target;
+    setRoomEditValue((prev) => ({ ...prev, [name]: value }));
+  };
+
+  //  Handle Update Room
+  const handleRoomUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(
+        `http://localhost:8000/room/${adminId}/updateRoom`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(roomEditValue),
+        }
+      );
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert("Room updated successfully!");
+        setEditProduct(false);
+        getSingleRoom(); // refresh data
+      } else {
+        alert(data.message || "Failed to update room");
+      }
+    } catch (error) {
+      console.error("Error updating room:", error);
+      alert("Error updating room");
+    }
+  };
 
   return (
     <main className="flex justify-center items-center min-h-screen bg-gray-100 text-gray-900 px-4 py-10">
@@ -113,6 +174,92 @@ const RoomDetails = () => {
               <span>{new Date(room.updatedAt).toLocaleString()}</span>
             </div>
           </div>
+
+          {/* Action Buttons */}
+          <div className="flex gap-2 text-white mt-4">
+            <button
+              onClick={() => setEditProduct(!editProduct)}
+              className="bg-gray-600 cursor-pointer hover:bg-gray-700 px-2 text-xs rounded-sm"
+            >
+              {editProduct ? "Cancel" : "Edit"}
+            </button>
+            <button className="bg-red-400 cursor-pointer hover:bg-red-500 px-2 rounded-sm text-xs">
+              Delete
+            </button>
+          </div>
+
+          {/* Edit Room Form */}
+          {editProduct && (
+            <form
+              onSubmit={handleRoomUpdate}
+              className="space-y-3 mt-4 text-sm md:text-base bg-yellow-100 p-2 rounded-md"
+            >
+              <div className="flex justify-between">
+                <label className="font-medium">Room Number:</label>
+                <input
+                  name="roomNumber"
+                  type="text"
+                  value={roomEditValue.roomNumber}
+                  className="bg-white border px-2"
+                  onChange={handleRoomEditChange}
+                />
+              </div>
+
+              <div className="flex justify-between">
+                <label className="font-medium">Room Type:</label>
+                <select
+                  name="roomType"
+                  className="bg-white border px-2"
+                  value={roomEditValue.roomType}
+                  onChange={handleRoomEditChange}
+                >
+                  <option value="">Select option</option>
+                  <option value="Single">Single</option>
+                  <option value="Family">Family</option>
+                </select>
+              </div>
+
+              <div className="flex justify-between">
+                <label className="font-medium">Price per Night (Rs.):</label>
+                <input
+                  name="pricePerNight"
+                  type="number"
+                  min="0"
+                  value={roomEditValue.pricePerNight}
+                  className="bg-white border px-2"
+                  onChange={handleRoomEditChange}
+                />
+              </div>
+
+              <div className="flex justify-between">
+                <label className="font-medium">Capacity:</label>
+                <input
+                  name="capacity"
+                  type="number"
+                  value={roomEditValue.capacity}
+                  className="bg-white border px-2"
+                  onChange={handleRoomEditChange}
+                />
+              </div>
+
+              <div className="flex flex-col">
+                <label className="font-medium">Description:</label>
+                <textarea
+                  name="description"
+                  value={roomEditValue.description}
+                  onChange={handleRoomEditChange}
+                  className="bg-white border px-2"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm"
+              >
+                Save Changes
+              </button>
+            </form>
+          )}
         </div>
       )}
     </main>

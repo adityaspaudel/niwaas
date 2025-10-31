@@ -38,7 +38,7 @@ const AdminHome = () => {
     setNewRoomData({ ...newRoomData, [e.target.name]: e.target.value });
   };
 
-  // ✅ Minimal fix: handle multiple image files properly
+  //  Minimal fix: handle multiple image files properly
   const handleFileChange = (e) => {
     setImages(Array.from(e.target.files));
   };
@@ -247,7 +247,7 @@ const AdminHome = () => {
             {roomData.map((room) => (
               <div
                 key={room._id}
-                className="w-full sm:w-[300px] bg-white shadow-md rounded-2xl overflow-hidden hover:shadow-lg transition-transform transform hover:-translate-y-1 "
+                className="w-full sm:w-[300px] p-2 shadow-md rounded-2xl overflow-hidden hover:shadow-lg transition-transform transform hover:-translate-y-1 bg-pink-200"
               >
                 <div className="relative w-full h-48">
                   {room.imagesUrl && room.imagesUrl.length > 0 ? (
@@ -289,7 +289,6 @@ const AdminHome = () => {
                   </div>
                   <div>Current Booking: {room.currentBooking || "—"}</div>
 
-             
                   <Link
                     href={`/admin/${adminId}/home/${room._id}/roomDetails`}
                     className="mt-3 inline-block bg-pink-500 hover:bg-pink-600 text-white text-center text-sm py-2 rounded-md font-medium transition"

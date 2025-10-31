@@ -85,7 +85,6 @@ const updateRoom = async (req, res) => {
       currentBooking,
     } = req.body;
 
-    console.log(req.body);
     const { adminId } = req.params;
 
     // Validate input
@@ -101,6 +100,9 @@ const updateRoom = async (req, res) => {
       return res.status(404).json({ message: "Admin not found" });
     }
 
+    // ✅ Convert empty string to null
+    const currentBookingValue = currentBooking ? currentBooking : null;
+
     // Update the room
     const updatedRoom = await Room.findOneAndUpdate(
       { roomNumber },
@@ -111,11 +113,11 @@ const updateRoom = async (req, res) => {
           capacity,
           description,
           status,
-          currentBooking,
-          updatedBy: adminId, // ✅ correct field name
+          currentBooking: currentBookingValue,
+          updatedBy: adminId,
         },
       },
-      { new: true } // ✅ returns updated room
+      { new: true }
     );
 
     if (!updatedRoom) {
@@ -131,7 +133,6 @@ const updateRoom = async (req, res) => {
     return res.status(500).json({ message: "Failed to update room" });
   }
 };
-
 const deleteRoom = async (req, res) => {
   try {
     const { roomNumber } = req.body;
