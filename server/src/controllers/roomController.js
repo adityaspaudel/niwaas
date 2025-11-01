@@ -202,14 +202,14 @@ const getSingleRoomData = async (req, res) => {
   try {
     const { roomId } = req.params;
 
-    const singleRoomData = await Room.findById(roomId); // cleaner & optimized
+    const singleRoomData = await Room.findById(roomId); 
 
     if (!singleRoomData) {
       return res.status(404).json({
         message:
           "Couldn't find room, room is either not created or deleted already",
       });
-      // ✅ use `return` to stop code here
+      
     }
 
     return res

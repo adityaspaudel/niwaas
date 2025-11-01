@@ -87,7 +87,14 @@ const userLogin = async (req, res) => {
 const getGuestData = async (req, res) => {
   try {
     const { guestId } = req.params;
+    const guestData = await User.findOne({ _id: guestId });
+    if (!guestData) {
+      res.status(204).send({ message: "user doesn`t exist" });
+    }
+    res
+      .status(200)
+      .json({ message: "guest data fetched successfully", guestData });
   } catch (error) {}
 };
 
-module.exports = { userRegistration, userLogin, getGuestData };
+module.exports = { userRegistration, userLogin, getGuestData, getGuestData };
