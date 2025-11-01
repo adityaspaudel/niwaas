@@ -184,6 +184,7 @@ const deleteRoom = async (req, res) => {
       .json({ message: "Failed to delete room", error: error.message });
   }
 };
+
 // 🔷 get room
 const getRoom = async (req, res) => {
   try {
@@ -222,10 +223,25 @@ const getSingleRoomData = async (req, res) => {
     });
   }
 };
+const getAllRooms = async (req, res) => {
+  try {
+    const roomsData = await Room.find();
+
+    res
+      .status(200)
+      .json({ message: "fetched all rooms data successfully", roomsData });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "could not fetch rooms data", error: error.message });
+  }
+};
+
 module.exports = {
   createRoom,
   updateRoom,
   deleteRoom,
   getRoom,
   getSingleRoomData,
+  getAllRooms,
 };

@@ -7,6 +7,7 @@ const {
   deleteRoom,
   getRoom,
   getSingleRoomData,
+  getAllRooms,
 } = require("../controllers/roomController");
 
 const upload = require("../middlewares/multerConfig");
@@ -16,5 +17,6 @@ router.put("/room/:adminId/updateRoom", upload.array("images", 5), updateRoom);
 router.delete("/room/:adminId/deleteRoom", deleteRoom);
 router.get("/room/:adminId/getRoom", getRoom);
 router.get("/room/:roomId/getSingleRoomData", getSingleRoomData);
+router.get("/room/getAllRooms", getAllRooms);
 
 module.exports = router;
