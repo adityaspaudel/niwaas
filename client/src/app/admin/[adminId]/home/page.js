@@ -81,17 +81,17 @@ const AdminHome = () => {
       {/* <div>Admin Home</div> */}
       {errorMessage}
       {/* Add Room Form */}
-      <div>
+      <div className=" py-4">
         <form
           onSubmit={handleSubmit}
-          className="max-w-md mx-auto bg-white shadow-md rounded-2xl p-6 flex flex-col gap-4"
+          className="max-w-md mx-auto bg-pink-200 transition  shadow-gray-400  px-12 py-4 flex flex-col gap-4 rounded-sm"
         >
           <h2 className="text-lg font-semibold text-gray-800 mb-2">
             Add a room
           </h2>
 
           {/* Inputs */}
-          <div className="flex flex-col">
+          <div className="flex flex-col ">
             <label
               htmlFor="roomNumber"
               className="text-sm font-medium text-gray-700 mb-1"
@@ -102,7 +102,7 @@ const AdminHome = () => {
               type="text"
               name="roomNumber"
               id="roomNumber"
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border border-gray-400 bg-white   rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black-500"
               onChange={handleChange}
             />
           </div>
@@ -117,7 +117,7 @@ const AdminHome = () => {
             <select
               name="roomType"
               id="roomType"
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border border-gray-400 bg-white   rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black-500"
               onChange={handleChange}
             >
               <option value="">Select Room Type</option>
@@ -138,7 +138,7 @@ const AdminHome = () => {
               name="pricePerNight"
               id="pricePerNight"
               min="500"
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border border-gray-400 bg-white   rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black-500"
               onChange={handleChange}
             />
           </div>
@@ -154,7 +154,7 @@ const AdminHome = () => {
               type="number"
               name="capacity"
               id="capacity"
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border border-gray-400 bg-white   rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black-500"
               onChange={handleChange}
             />
           </div>
@@ -170,7 +170,7 @@ const AdminHome = () => {
               name="description"
               id="description"
               rows="3"
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border border-gray-400 bg-white   rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black-500"
               onChange={handleChange}
             />
           </div>
@@ -185,7 +185,7 @@ const AdminHome = () => {
             <select
               name="status"
               id="status"
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border border-gray-400 bg-white   rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black-500"
               onChange={handleChange}
             >
               <option value="">Select status</option>
@@ -206,7 +206,7 @@ const AdminHome = () => {
               name="currentBooking"
               id="currentBooking"
               onChange={handleChange}
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border border-gray-400 bg-white   rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black-500"
             />
           </div>
 
@@ -223,14 +223,14 @@ const AdminHome = () => {
               name="images"
               id="images"
               multiple
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border border-gray-400 bg-white   rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black-500"
               onChange={handleFileChange}
             />
           </div>
 
           <button
             type="submit"
-            className="mt-4 bg-blue-600 text-white font-medium py-2 rounded-lg hover:bg-blue-700 transition"
+            className="mt-4 bg-pink-500 text-white font-medium py-2 rounded-sm cursor-pointer hover:bg-pink-700 transition"
           >
             Submit
           </button>
@@ -239,8 +239,8 @@ const AdminHome = () => {
 
       {/* ✅ My Rooms ----------------------------------*/}
       {roomData && (
-        <div className="p">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+        <div className="px-9">
+          <h2 className="text-2xl font-semibold  mt-4 mb-8 flex flex-col items-center content-center  ">
             My Rooms
           </h2>
           <div className="flex flex-wrap gap-6">
