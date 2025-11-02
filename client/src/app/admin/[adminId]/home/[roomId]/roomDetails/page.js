@@ -20,6 +20,15 @@ const RoomDetails = () => {
     currentBooking: "",
   });
   const [editImages, setEditImages] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const openImage = (img) => {
+    setSelectedImage(img);
+  };
+
+  const closeImage = () => {
+    setSelectedImage(null);
+  };
 
   // Fetch Single Room Data
   const getSingleRoom = useCallback(async () => {
@@ -139,207 +148,214 @@ const RoomDetails = () => {
     <main className="flex justify-center items-center min-h-screen bg-gray-100 text-gray-900 px-4 py-10">
       {errorMessage && <div>{errorMessage}</div>}
 
-      {room && (
-        <div className="w-full max-w-2xl bg-white shadow-lg rounded-2xl p-6 md:p-8 border border-gray-200">
-          {/* Header */}
-          <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center border-b pb-3">
-            Room Details
-          </h2>
-
-          {/* Room Images */}
-          {room.imagesUrl && room.imagesUrl.length > 0 && (
-            <div className="flex flex-wrap justify-center gap-3 mb-5">
-              {room.imagesUrl.map((img, idx) => (
-                <div
-                  key={idx}
-                  className="relative w-32 h-32 md:w-40 md:h-40 rounded-lg overflow-hidden shadow"
-                >
+      <div className="bg-pink-200 p-8 rounded-xl">
+        {room && (
+          <div className="w-full max-w-2xl bg-white shadow-lg rounded-2xl p-6 md:p-8 border border-gray-200">
+            {/* Header */}
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center border-b pb-3">
+              Room Details
+            </h2>
+            {/* Room Images */}
+            {room.imagesUrl && room.imagesUrl.length > 0 && (
+              <div className="flex flex-wrap justify-center gap-3 mb-5">
+                {room.imagesUrl.map((img, idx) => (
+                  <div
+                    key={idx}
+                    className="relative w-32 h-32 md:w-40 md:h-40 rounded-lg overflow-hidden shadow"
+                  >
+                    <Image
+                      src={`http://localhost:8000/uploads/${img}`}
+                      alt={`Room ${room.roomNumber}`}
+                      fill
+                      className="object-cover transition-transform duration-300 cursor-pointer hover:scale-105"
+                      unoptimized
+                      onClick={() => openImage(img)}
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
+            {selectedImage && (
+              <div
+                onClick={closeImage}
+                className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+              >
+                <div className="relative w-[90vw] h-[80vh]">
                   <Image
-                    src={`http://localhost:8000/uploads/${img}`}
-                    alt={`Room ${room.roomNumber}`}
+                    src={`http://localhost:8000/uploads/${selectedImage}`}
+                    alt="Full Image"
                     fill
-                    className="object-cover"
+                    className="object-contain"
                     unoptimized
                   />
+                  <button
+                    onClick={closeImage}
+                    className="absolute top-3 right-3 text-white text-2xl font-bold"
+                  >
+                    ✕
+                  </button>
                 </div>
-              ))}
-            </div>
-          )}
-
-          {/* Room Info */}
-          <div className="space-y-3 text-sm md:text-base">
-            <div className="flex justify-between">
-              <span className="font-medium">Room Number:</span>
-              <span>{room.roomNumber}</span>
-            </div>
-
-            <div className="flex justify-between">
-              <span className="font-medium">Room Type:</span>
-              <span>{room.roomType}</span>
-            </div>
-
-            <div className="flex justify-between">
-              <span className="font-medium">Price per Night:</span>
-              <span>Rs. {room.pricePerNight}</span>
-            </div>
-
-            <div className="flex justify-between">
-              <span className="font-medium">Capacity:</span>
-              <span>{room.capacity} Guests</span>
-            </div>
-
-            <div>
-              <span className="font-medium">Description:</span>
-              <p className="mt-1 text-gray-700 bg-gray-50 rounded-md p-2">
-                {room.description}
-              </p>
-            </div>
-
-            <div className="flex justify-between items-center">
-              <span className="font-medium">Status:</span>
-              <span
-                className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                  room.status === "Available"
-                    ? "bg-green-100 text-green-700"
-                    : "bg-red-100 text-red-700"
-                }`}
-              >
-                {room.status}
-              </span>
-            </div>
-
-            <div className="flex justify-between">
-              <span className="font-medium">Current Booking:</span>
-              <span>{room.currentBooking || "—"}</span>
-            </div>
-
-            <div className="flex justify-between text-gray-600 text-sm pt-2 border-t mt-4">
-              <span>Created:</span>
-              <span>{new Date(room.createdAt).toLocaleString()}</span>
-            </div>
-            <div className="flex justify-between text-gray-600 text-sm">
-              <span>Updated:</span>
-              <span>{new Date(room.updatedAt).toLocaleString()}</span>
-            </div>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex gap-2 text-white mt-4">
-            <button
-              onClick={() => setEditProduct(!editProduct)}
-              className="bg-gray-600 cursor-pointer hover:bg-gray-700 px-2 text-xs rounded-sm"
-            >
-              {editProduct ? "Cancel" : "Edit"}
-            </button>
-            <button
-              onClick={(e) => deleteRoom(e, room.roomNumber)}
-              className="bg-red-400 cursor-pointer hover:bg-red-500 px-2 rounded-sm text-xs"
-            >
-              Delete {room?.roomNumber}
-            </button>
-          </div>
-
-          {/* Edit Room Form */}
-          {editProduct && (
-            <form
-              onSubmit={handleRoomUpdate}
-              className="space-y-3 mt-4 text-sm md:text-base bg-yellow-100 p-2 rounded-md"
-            >
-              <div className="flex justify-between">
-                <label className="font-medium">Room Number:</label>
-                <input
-                  name="roomNumber"
-                  type="text"
-                  value={roomEditValue.roomNumber}
-                  className="bg-white border px-2"
-                  onChange={handleRoomEditChange}
-                />
               </div>
-
+            )}
+            {/* Room Info */}
+            <div className="space-y-3 text-sm md:text-base">
               <div className="flex justify-between">
-                <label className="font-medium">Room Type:</label>
-                <select
-                  name="roomType"
-                  className="bg-white border px-2"
-                  value={roomEditValue.roomType}
-                  onChange={handleRoomEditChange}
+                <span className="font-medium">Room Number:</span>
+                <span>{room.roomNumber}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-medium">Room Type:</span>
+                <span>{room.roomType}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-medium">Price per Night:</span>
+                <span>Rs. {room.pricePerNight}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-medium">Capacity:</span>
+                <span>{room.capacity} Guests</span>
+              </div>
+              <div>
+                <span className="font-medium">Description:</span>
+                <p className="mt-1 text-gray-700 bg-gray-50 rounded-md p-2">
+                  {room.description}
+                </p>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="font-medium">Status:</span>
+                <span
+                  className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                    room.status === "Available"
+                      ? "bg-green-100 text-green-700"
+                      : "bg-red-100 text-red-700"
+                  }`}
                 >
-                  <option value="">Select option</option>
-                  <option value="Single">Single</option>
-                  <option value="Family">Family</option>
-                </select>
+                  {room.status}
+                </span>
               </div>
-
               <div className="flex justify-between">
-                <label className="font-medium">Price per Night (Rs.):</label>
-                <input
-                  name="pricePerNight"
-                  type="number"
-                  min="0"
-                  value={roomEditValue.pricePerNight}
-                  className="bg-white border px-2"
-                  onChange={handleRoomEditChange}
-                />
+                <span className="font-medium">Current Booking:</span>
+                <span>{room.currentBooking || "—"}</span>
               </div>
-
-              <div className="flex justify-between">
-                <label className="font-medium">Capacity:</label>
-                <input
-                  name="capacity"
-                  type="number"
-                  value={roomEditValue.capacity}
-                  className="bg-white border px-2"
-                  onChange={handleRoomEditChange}
-                />
+              <div className="flex justify-between text-gray-600 text-sm pt-2 border-t mt-4">
+                <span>Created:</span>
+                <span>{new Date(room.createdAt).toLocaleString()}</span>
               </div>
-
-              <div className="flex flex-col">
-                <label className="font-medium">Description:</label>
-                <textarea
-                  name="description"
-                  value={roomEditValue.description}
-                  onChange={handleRoomEditChange}
-                  className="bg-white border px-2"
-                />
+              <div className="flex justify-between text-gray-600 text-sm">
+                <span>Updated:</span>
+                <span>{new Date(room.updatedAt).toLocaleString()}</span>
               </div>
-
-              <div className="flex flex-col">
-                <label className="font-medium">Room Images:</label>
-                <input
-                  name="images"
-                  type="file"
-                  multiple
-                  onChange={handleRoomImagesChange}
-                  className="bg-white border px-2"
-                />
-              </div>
-
-              {/* Preview Selected Images */}
-              {editImages.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {editImages.map((file, idx) => (
-                    <Image
-                      key={idx}
-                      src={URL.createObjectURL(file)}
-                      alt="preview"
-                      className="w-24 h-24 object-cover rounded-md"
-                      height={200}
-                      width={200}
-                    />
-                  ))}
-                </div>
-              )}
-
+            </div>
+            {/* Action Buttons */}
+            <div className="flex gap-2 text-white mt-4">
               <button
-                type="submit"
-                className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm"
+                onClick={() => setEditProduct(!editProduct)}
+                className="bg-gray-600 cursor-pointer hover:bg-gray-700 px-2 text-xs rounded-sm"
               >
-                Save Changes
+                {editProduct ? "Cancel" : "Edit"}
               </button>
-            </form>
-          )}
-        </div>
-      )}
+              <button
+                onClick={(e) => deleteRoom(e, room.roomNumber)}
+                className="bg-red-400 cursor-pointer hover:bg-red-500 px-2 rounded-sm text-xs"
+              >
+                Delete {room?.roomNumber}
+              </button>
+            </div>
+            {/* 🔷 Edit Room Form */}
+            {editProduct && (
+              <form
+                onSubmit={handleRoomUpdate}
+                className="space-y-3 mt-4 text-sm md:text-base bg-yellow-100 p-2 rounded-md"
+              >
+                <div className="flex justify-between">
+                  <label className="font-medium">Room Number:</label>
+                  <input
+                    name="roomNumber"
+                    type="text"
+                    value={roomEditValue.roomNumber}
+                    className="bg-white hover:border px-2 rounded-sm"
+                    onChange={handleRoomEditChange}
+                  />
+                </div>
+                <div className="flex justify-between">
+                  <label className="font-medium">Room Type:</label>
+                  <select
+                    name="roomType"
+                    className="bg-white hover:border px-2 rounded-sm"
+                    value={roomEditValue.roomType}
+                    onChange={handleRoomEditChange}
+                  >
+                    <option value="">Select option</option>
+                    <option value="Single">Single</option>
+                    <option value="Family">Family</option>
+                  </select>
+                </div>
+                <div className="flex justify-between">
+                  <label className="font-medium">Price per Night (Rs.):</label>
+                  <input
+                    name="pricePerNight"
+                    type="number"
+                    min="0"
+                    value={roomEditValue.pricePerNight}
+                    className="bg-white hover:border px-2 rounded-sm"
+                    onChange={handleRoomEditChange}
+                  />
+                </div>
+                <div className="flex justify-between">
+                  <label className="font-medium">Capacity:</label>
+                  <input
+                    name="capacity"
+                    type="number"
+                    value={roomEditValue.capacity}
+                    className="bg-white hover:border px-2 rounded-sm"
+                    onChange={handleRoomEditChange}
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <label className="font-medium">Description:</label>
+                  <textarea
+                    name="description"
+                    value={roomEditValue.description}
+                    onChange={handleRoomEditChange}
+                    className="bg-white hover:border px-2 rounded-sm"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <label className="font-medium">Room Images:</label>
+                  <input
+                    name="images"
+                    type="file"
+                    multiple
+                    onChange={handleRoomImagesChange}
+                    className="bg-white hover:border px-2 rounded-sm"
+                  />
+                </div>
+                {/* Preview Selected Images */}
+                {editImages.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {editImages.map((file, idx) => (
+                      <Image
+                        key={idx}
+                        src={URL.createObjectURL(file)}
+                        alt="preview"
+                        className="bg-white hover:border px-2 rounded-sm"
+                        height={200}
+                        width={200}
+                      />
+                    ))}
+                  </div>
+                )}
+                <button
+                  type="submit"
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm"
+                >
+                  Save Changes
+                </button>
+              </form>
+            )}
+          </div>
+        )}
+      </div>
     </main>
   );
 };
