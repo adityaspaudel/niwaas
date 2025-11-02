@@ -237,9 +237,9 @@ const AdminHome = () => {
         </form>
       </div>
 
-      {/* My Rooms ----------------------------------*/}
+      {/* ✅ My Rooms ----------------------------------*/}
       {roomData && (
-        <div className="p-4">
+        <div className="p">
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">
             My Rooms
           </h2>
@@ -247,7 +247,7 @@ const AdminHome = () => {
             {roomData.map((room) => (
               <div
                 key={room._id}
-                className="w-full sm:w-[300px] p-2 shadow-md rounded-2xl overflow-hidden hover:shadow-lg transition-transform transform hover:-translate-y-1 bg-pink-200"
+                className="w-full sm:w-[300px] shadow-md rounded-sm overflow-hidden hover:shadow-lg shadow-black transition-transform transform hover:-translate-y-1 bg-pink-200"
               >
                 <div className="relative w-full h-48">
                   {room.imagesUrl && room.imagesUrl.length > 0 ? (
@@ -255,7 +255,7 @@ const AdminHome = () => {
                       src={`http://localhost:8000/uploads/${room.imagesUrl[0]}`}
                       alt={`Room ${room.roomNumber}`}
                       fill
-                      className="object-cover rounded-md"
+                      className="object-cover "
                       unoptimized
                     />
                   ) : (
