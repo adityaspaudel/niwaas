@@ -198,7 +198,7 @@ const RoomDetails = () => {
               </div>
             )}
             {/* Room Info */}
-            <div className="space-y-3 text-sm md:text-base">
+            <div className="space-y-3 text-sm md:text-base min-w-96">
               <div className="flex justify-between">
                 <span className="font-medium">Room Number:</span>
                 <span>{room.roomNumber}</span>

@@ -18,6 +18,9 @@ const AdminHome = () => {
   });
   const [images, setImages] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
+
+  const [addRoomDisplay, setAddRoomDisplay] = useState("hidden");
+
   const fetchData = useCallback(async () => {
     try {
       const response = await fetch(
@@ -76,20 +79,36 @@ const AdminHome = () => {
     }
   };
 
+  const toggleAddRoom = (e) => {
+    e.preventDefault();
+    setAddRoomDisplay((prev) => (prev === "hidden" ? "block" : "hidden"));
+  };
+
   return (
-    <main className="bg-gray-100 text-black text-sm">
+    <main className="bg-gray-100 text-black text-sm p-2">
       {/* <div>Admin Home</div> */}
       {errorMessage}
+      <div className="flex flex-col items-end content-end">
+        <button className="bg-red-500 cursor-pointer  text-white  hover:bg-red-700 px-4 py-1 rounded-2xl">
+          logout
+        </button>
+      </div>
       {/* Add Room Form */}
-      <div className=" py-4">
+      <div className="flex flex-col items-center content-center">
+        <button
+          onClick={toggleAddRoom}
+          className="text-2xl  text-center font-semibold  mb-2 bg-green-500 hover:bg-green-600 text-white rounded-sm px-2 cursor-pointer"
+        >
+          Add a room
+        </button>
+      </div>
+      <div
+        className={`py-4 ${addRoomDisplay} flex justify-between items-center`}
+      >
         <form
           onSubmit={handleSubmit}
-          className="max-w-md mx-auto bg-pink-200 transition  shadow-gray-400  px-12 py-4 flex flex-col gap-4 rounded-sm"
+          className=" max-w-2xl mx-auto bg-pink-200 transition  shadow-gray-400  px-12 py-4 flex flex-col gap-4 rounded-sm"
         >
-          <h2 className="text-lg font-semibold text-gray-800 mb-2">
-            Add a room
-          </h2>
-
           {/* Inputs */}
           <div className="flex flex-col ">
             <label
@@ -235,15 +254,44 @@ const AdminHome = () => {
             Submit
           </button>
         </form>
+        {/* add room side images */}
+        <div className="flex content-center items-center">
+          {roomData && (
+            <div className="w-[600px] flex gap-4 p-4 flex-wrap overflow-hidden justify-between items-center bg-pink-200">
+              {roomData.map((room, i) => (
+                <div key={i}>
+                  {" "}
+                  <div className="flex gap-4 justify-between items-center">
+                    {room.imagesUrl && room.imagesUrl.length > 0 ? (
+                      <Image
+                        src={`http://localhost:8000/uploads/${room.imagesUrl[0]}`}
+                        alt={`Room ${room.roomNumber}`}
+                        className="object-cover h-30 w-30"
+                        unoptimized
+                        height={200}
+                        width={200}
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm">
+                        No Image
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* ✅ My Rooms ----------------------------------*/}
       {roomData && (
-        <div className="px-9">
-          <h2 className="text-2xl font-semibold  mt-4 mb-8 flex flex-col items-center content-center  ">
-            My Rooms
+        <div className=" flex flex-col px-4 ">
+          <h2 className="text-2xl font-semibold  text-center mt-4 mb-8 flex flex-col content-center items-center w-full">
+            My Rooms List
+            <hr className="border border-black " />
           </h2>
-          <div className="flex flex-wrap gap-6">
+          <div className="flex justify-between items-between flex-wrap gap-4 ">
             {roomData.map((room) => (
               <div
                 key={room._id}
