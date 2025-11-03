@@ -25,8 +25,10 @@ const LoginForm = () => {
   const handleClick = () => router.push("/register");
   return (
     <div className="flex flex-col justify-center items-center bg-gray-100 h-screen w-screen text-black">
-      <div className="flex flex-col gap-2 p-8 justify-center items-center  border-gray-600 h-1/2 w-1/3 rounded-sm bg-fuchsia-200 shadow hover:shadow-md hover:shadow-black transition ">
-        <h1 className="font-bold w-full flex flex-col text-start">Login</h1>
+      <div className="flex flex-col gap-2 px-8 py-8 justify-center items-center  border-gray-600  w-1/3 rounded-sm bg-pink-200 shadow hover:shadow-md hover:shadow-black transition ">
+        <h1 className="font-bold w-full text-2xl flex flex-col text-start mb-2 ">
+          Login
+        </h1>
         <Formik
           initialValues={formData}
           validationSchema={loginSchema}
@@ -63,11 +65,11 @@ const LoginForm = () => {
           }}
         >
           {({ isSubmitting }) => (
-            <Form className="flex flex-col content-start items-start  w-full">
+            <Form className="flex flex-col gap-2 content-start items-start  w-full">
               <div className="flex flex-col w-full">
                 <label htmlFor="email">Email</label>
                 <Field
-                  className="px-2 border rounded-sm bg-white w-full"
+                  className="py-1 px-2 border rounded-4xl bg-white w-full"
                   name="email"
                   placeholder="jane@acme.com"
                   type="email"
@@ -76,14 +78,14 @@ const LoginForm = () => {
               <div className="flex flex-col w-full">
                 <label htmlFor="password">Password</label>
                 <Field
-                  className="px-2 border rounded-sm bg-white w-full"
+                  className="py-1 px-2 border rounded-4xl bg-white w-full"
                   name="password"
                   placeholder="password"
                   type="password"
                 />
               </div>
               <button
-                className="mt-8 text text-gray-50 bg-pink-500 transition hover:bg-pink-600 rounded-sm px-2 cursor-pointer"
+                className="mt-2 text text-gray-50 bg-pink-500 transition hover:bg-pink-600 rounded-4xl py-1 px-4 cursor-pointer"
                 type="submit"
                 disabled={isSubmitting}
               >
