@@ -72,7 +72,9 @@ const GuestHome = () => {
                     <div>Capacity: {room?.capacity}</div>
                     <div>
                       Description:{" "}
-                      <span className="break-all">{room?.description}</span>
+                      <span className="wrap-break-all">
+                        {room?.description}
+                      </span>
                     </div>
                     <div>Images Url: {room?.roomNumber}</div>
                     <div>Status: {room?.status}</div>

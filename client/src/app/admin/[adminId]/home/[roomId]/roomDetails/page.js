@@ -145,12 +145,12 @@ const RoomDetails = () => {
   };
 
   return (
-    <main className="flex justify-center items-center min-h-screen bg-gray-100 text-gray-900 px-4 py-10">
+    <main className="flex justify-center items-center min-h-screen  text-gray-900 px-4 py-10 bg-pink-200">
       {errorMessage && <div>{errorMessage}</div>}
 
-      <div className="bg-pink-200 p-8 rounded-xl">
+      <div className="bg-pink-200 px-8 rounded-xl">
         {room && (
-          <div className="w-full max-w-2xl bg-white shadow-lg rounded-2xl p-6 md:p-8 border border-gray-200">
+          <div className="w-full max-w-2xl bg-white shadow-lg  p-6 md:p-8 border border-gray-200">
             {/* Header */}
             <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center border-b pb-3">
               Room Details
@@ -198,7 +198,7 @@ const RoomDetails = () => {
               </div>
             )}
             {/* Room Info */}
-            <div className="space-y-3 text-sm md:text-base">
+            <div className="space-y-3 text-sm md:text-base min-w-96">
               <div className="flex justify-between">
                 <span className="font-medium">Room Number:</span>
                 <span>{room.roomNumber}</span>
@@ -262,97 +262,101 @@ const RoomDetails = () => {
               </button>
             </div>
             {/* 🔷 Edit Room Form */}
-            {editProduct && (
-              <form
-                onSubmit={handleRoomUpdate}
-                className="space-y-3 mt-4 text-sm md:text-base bg-yellow-100 p-2 rounded-md"
-              >
-                <div className="flex justify-between">
-                  <label className="font-medium">Room Number:</label>
-                  <input
-                    name="roomNumber"
-                    type="text"
-                    value={roomEditValue.roomNumber}
-                    className="bg-white hover:border px-2 rounded-sm"
-                    onChange={handleRoomEditChange}
-                  />
-                </div>
-                <div className="flex justify-between">
-                  <label className="font-medium">Room Type:</label>
-                  <select
-                    name="roomType"
-                    className="bg-white hover:border px-2 rounded-sm"
-                    value={roomEditValue.roomType}
-                    onChange={handleRoomEditChange}
-                  >
-                    <option value="">Select option</option>
-                    <option value="Single">Single</option>
-                    <option value="Family">Family</option>
-                  </select>
-                </div>
-                <div className="flex justify-between">
-                  <label className="font-medium">Price per Night (Rs.):</label>
-                  <input
-                    name="pricePerNight"
-                    type="number"
-                    min="0"
-                    value={roomEditValue.pricePerNight}
-                    className="bg-white hover:border px-2 rounded-sm"
-                    onChange={handleRoomEditChange}
-                  />
-                </div>
-                <div className="flex justify-between">
-                  <label className="font-medium">Capacity:</label>
-                  <input
-                    name="capacity"
-                    type="number"
-                    value={roomEditValue.capacity}
-                    className="bg-white hover:border px-2 rounded-sm"
-                    onChange={handleRoomEditChange}
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <label className="font-medium">Description:</label>
-                  <textarea
-                    name="description"
-                    value={roomEditValue.description}
-                    onChange={handleRoomEditChange}
-                    className="bg-white hover:border px-2 rounded-sm"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <label className="font-medium">Room Images:</label>
-                  <input
-                    name="images"
-                    type="file"
-                    multiple
-                    onChange={handleRoomImagesChange}
-                    className="bg-white hover:border px-2 rounded-sm"
-                  />
-                </div>
-                {/* Preview Selected Images */}
-                {editImages.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    {editImages.map((file, idx) => (
-                      <Image
-                        key={idx}
-                        src={URL.createObjectURL(file)}
-                        alt="preview"
-                        className="bg-white hover:border px-2 rounded-sm"
-                        height={200}
-                        width={200}
-                      />
-                    ))}
-                  </div>
-                )}
-                <button
-                  type="submit"
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm"
+            <div className="">
+              {editProduct && (
+                <form
+                  onSubmit={handleRoomUpdate}
+                  className="space-y-3 mt-4 text-sm md:text-base bg-yellow-100 p-2 rounded-md"
                 >
-                  Save Changes
-                </button>
-              </form>
-            )}
+                  <div className="flex justify-between text-sm">
+                    <label className="font-medium">Room Number:</label>
+                    <input
+                      name="roomNumber"
+                      type="text"
+                      value={roomEditValue.roomNumber}
+                      className="bg-white border-gray-400 border hover:border-black px-2 rounded-sm"
+                      onChange={handleRoomEditChange}
+                    />
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <label className="font-medium">Room Type:</label>
+                    <select
+                      name="roomType"
+                      className="bg-white border-gray-400 border hover:border-black px-2 rounded-sm"
+                      value={roomEditValue.roomType}
+                      onChange={handleRoomEditChange}
+                    >
+                      <option value="">Select option</option>
+                      <option value="Single">Single</option>
+                      <option value="Family">Family</option>
+                    </select>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <label className="font-medium">
+                      Price per Night (Rs.):
+                    </label>
+                    <input
+                      name="pricePerNight"
+                      type="number"
+                      min="0"
+                      value={roomEditValue.pricePerNight}
+                      className="bg-white border-gray-400 border hover:border-black px-2 rounded-sm"
+                      onChange={handleRoomEditChange}
+                    />
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <label className="font-medium">Capacity:</label>
+                    <input
+                      name="capacity"
+                      type="number"
+                      value={roomEditValue.capacity}
+                      className="bg-white border-gray-400 border hover:border-black px-2 rounded-sm"
+                      onChange={handleRoomEditChange}
+                    />
+                  </div>
+                  <div className="flex flex-col text-sm">
+                    <label className="font-medium">Description:</label>
+                    <textarea
+                      name="description"
+                      value={roomEditValue.description}
+                      onChange={handleRoomEditChange}
+                      className="bg-white border-gray-400 border hover:border-black px-2 rounded-sm"
+                    />
+                  </div>
+                  <div className="flex flex-col text-sm">
+                    <label className="font-medium">Room Images:</label>
+                    <input
+                      name="images"
+                      type="file"
+                      multiple
+                      onChange={handleRoomImagesChange}
+                      className="bg-white border-gray-400 border hover:border-black px-2 rounded-sm"
+                    />
+                  </div>
+                  {/* Preview Selected Images */}
+                  {editImages.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-2 text-sm">
+                      {editImages.map((file, idx) => (
+                        <Image
+                          key={idx}
+                          src={URL.createObjectURL(file)}
+                          alt="preview"
+                          className="bg-white  hover:border px-2 rounded-sm"
+                          height={200}
+                          width={200}
+                        />
+                      ))}
+                    </div>
+                  )}
+                  <button
+                    type="submit"
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm"
+                  >
+                    Save Changes
+                  </button>
+                </form>
+              )}
+            </div>
           </div>
         )}
       </div>

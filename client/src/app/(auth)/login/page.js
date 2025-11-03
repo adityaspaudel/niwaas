@@ -32,7 +32,7 @@ const LoginForm = () => {
           validationSchema={loginSchema}
           onSubmit={async (values) => {
             await sleep(500);
-            alert(JSON.stringify(values, null, 2));
+            // alert(JSON.stringify(values, null, 2));
             try {
               const response = await fetch(
                 `http://localhost:8000/user/userLogin`,

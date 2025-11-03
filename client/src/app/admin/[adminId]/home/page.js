@@ -18,6 +18,9 @@ const AdminHome = () => {
   });
   const [images, setImages] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
+
+  const [addRoomDisplay, setAddRoomDisplay] = useState("hidden");
+
   const fetchData = useCallback(async () => {
     try {
       const response = await fetch(
@@ -76,22 +79,38 @@ const AdminHome = () => {
     }
   };
 
+  const toggleAddRoom = (e) => {
+    e.preventDefault();
+    setAddRoomDisplay((prev) => (prev === "hidden" ? "block" : "hidden"));
+  };
+
   return (
-    <main className="bg-gray-100 text-black text-sm">
+    <main className="bg-gray-100 text-black text-sm p-2">
       {/* <div>Admin Home</div> */}
       {errorMessage}
+      <div className="flex flex-col items-end content-end">
+        <button className="bg-red-500 cursor-pointer  text-white  hover:bg-red-700 px-4 py-1 rounded-2xl">
+          logout
+        </button>
+      </div>
       {/* Add Room Form */}
-      <div>
+      <div className="flex flex-col items-center content-center">
+        <button
+          onClick={toggleAddRoom}
+          className="text-2xl  text-center font-semibold  mb-2 bg-green-500 hover:bg-green-600 text-white rounded-sm px-2 cursor-pointer"
+        >
+          Add a room
+        </button>
+      </div>
+      <div
+        className={`py-4 ${addRoomDisplay} flex justify-between items-center`}
+      >
         <form
           onSubmit={handleSubmit}
-          className="max-w-md mx-auto bg-white shadow-md rounded-2xl p-6 flex flex-col gap-4"
+          className=" max-w-2xl mx-auto bg-pink-200 transition  shadow-gray-400  px-12 py-4 flex flex-col gap-4 rounded-sm"
         >
-          <h2 className="text-lg font-semibold text-gray-800 mb-2">
-            Add a room
-          </h2>
-
           {/* Inputs */}
-          <div className="flex flex-col">
+          <div className="flex flex-col ">
             <label
               htmlFor="roomNumber"
               className="text-sm font-medium text-gray-700 mb-1"
@@ -102,7 +121,7 @@ const AdminHome = () => {
               type="text"
               name="roomNumber"
               id="roomNumber"
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border border-gray-400 bg-white   rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black-500"
               onChange={handleChange}
             />
           </div>
@@ -117,7 +136,7 @@ const AdminHome = () => {
             <select
               name="roomType"
               id="roomType"
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border border-gray-400 bg-white   rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black-500"
               onChange={handleChange}
             >
               <option value="">Select Room Type</option>
@@ -138,7 +157,7 @@ const AdminHome = () => {
               name="pricePerNight"
               id="pricePerNight"
               min="500"
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border border-gray-400 bg-white   rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black-500"
               onChange={handleChange}
             />
           </div>
@@ -154,7 +173,7 @@ const AdminHome = () => {
               type="number"
               name="capacity"
               id="capacity"
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border border-gray-400 bg-white   rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black-500"
               onChange={handleChange}
             />
           </div>
@@ -170,7 +189,7 @@ const AdminHome = () => {
               name="description"
               id="description"
               rows="3"
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border border-gray-400 bg-white   rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black-500"
               onChange={handleChange}
             />
           </div>
@@ -185,7 +204,7 @@ const AdminHome = () => {
             <select
               name="status"
               id="status"
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border border-gray-400 bg-white   rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black-500"
               onChange={handleChange}
             >
               <option value="">Select status</option>
@@ -206,7 +225,7 @@ const AdminHome = () => {
               name="currentBooking"
               id="currentBooking"
               onChange={handleChange}
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border border-gray-400 bg-white   rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black-500"
             />
           </div>
 
@@ -223,31 +242,60 @@ const AdminHome = () => {
               name="images"
               id="images"
               multiple
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border border-gray-400 bg-white   rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black-500"
               onChange={handleFileChange}
             />
           </div>
 
           <button
             type="submit"
-            className="mt-4 bg-blue-600 text-white font-medium py-2 rounded-lg hover:bg-blue-700 transition"
+            className="mt-4 bg-pink-500 text-white font-medium py-2 rounded-sm cursor-pointer hover:bg-pink-700 transition"
           >
             Submit
           </button>
         </form>
+        {/* add room side images */}
+        <div className="flex content-center items-center">
+          {roomData && (
+            <div className="w-[600px] flex gap-4 p-4 flex-wrap overflow-hidden justify-between items-center bg-pink-200">
+              {roomData.map((room, i) => (
+                <div key={i}>
+                  {" "}
+                  <div className="flex gap-4 justify-between items-center">
+                    {room.imagesUrl && room.imagesUrl.length > 0 ? (
+                      <Image
+                        src={`http://localhost:8000/uploads/${room.imagesUrl[0]}`}
+                        alt={`Room ${room.roomNumber}`}
+                        className="object-cover h-30 w-30"
+                        unoptimized
+                        height={200}
+                        width={200}
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm">
+                        No Image
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* My Rooms ----------------------------------*/}
+      {/* ✅ My Rooms ----------------------------------*/}
       {roomData && (
-        <div className="p-4">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-            My Rooms
+        <div className=" flex flex-col px-4 ">
+          <h2 className="text-2xl font-semibold  text-center mt-4 mb-8 flex flex-col content-center items-center w-full">
+            My Rooms List
+            <hr className="border border-black " />
           </h2>
-          <div className="flex flex-wrap gap-6">
+          <div className="flex justify-between items-between flex-wrap gap-4 ">
             {roomData.map((room) => (
               <div
                 key={room._id}
-                className="w-full sm:w-[300px] p-2 shadow-md rounded-2xl overflow-hidden hover:shadow-lg transition-transform transform hover:-translate-y-1 bg-pink-200"
+                className="w-full sm:w-[300px] shadow-md rounded-sm overflow-hidden hover:shadow-lg shadow-black transition-transform transform hover:-translate-y-1 bg-pink-200"
               >
                 <div className="relative w-full h-48">
                   {room.imagesUrl && room.imagesUrl.length > 0 ? (
@@ -255,7 +303,7 @@ const AdminHome = () => {
                       src={`http://localhost:8000/uploads/${room.imagesUrl[0]}`}
                       alt={`Room ${room.roomNumber}`}
                       fill
-                      className="object-cover rounded-md"
+                      className="object-cover "
                       unoptimized
                     />
                   ) : (
