@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { memo, useCallback, useEffect, useState } from "react";
 
 const RoomDetails = () => {
@@ -21,7 +21,7 @@ const RoomDetails = () => {
   });
   const [editImages, setEditImages] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
-
+  const router = useRouter();
   const openImage = (img) => {
     setSelectedImage(img);
   };
@@ -143,10 +143,21 @@ const RoomDetails = () => {
       setTimeout(() => setErrorMessage(""), 5000);
     }
   };
+  const handleLogout = () => {
+    router.push("/login");
+  };
 
   return (
-    <main className="flex justify-center items-center min-h-screen  text-gray-900 px-4 py-10 bg-pink-200">
+    <main className="flex flex-col justify-center items-center min-h-screen  text-gray-900 px-4 py-2 bg-pink-200">
       {errorMessage && <div>{errorMessage}</div>}
+      <div className="flex flex-col items-end content-end w-full">
+        <button
+          onClick={handleLogout}
+          className="bg-red-500 cursor-pointer  text-white  hover:bg-red-700 px-4 py-1 rounded-2xl"
+        >
+          logout
+        </button>
+      </div>
 
       <div className="bg-pink-200 px-8 rounded-xl">
         {room && (

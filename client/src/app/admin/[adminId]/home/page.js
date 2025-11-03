@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
 
 const AdminHome = () => {
@@ -36,7 +36,7 @@ const AdminHome = () => {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-
+  const router = useRouter();
   const handleChange = (e) => {
     setNewRoomData({ ...newRoomData, [e.target.name]: e.target.value });
   };
@@ -84,12 +84,19 @@ const AdminHome = () => {
     setAddRoomDisplay((prev) => (prev === "hidden" ? "block" : "hidden"));
   };
 
+  const handleLogout = () => {
+    router.push("/login");
+  };
+
   return (
     <main className="bg-gray-100 text-black text-sm p-2">
       {/* <div>Admin Home</div> */}
       {errorMessage}
       <div className="flex flex-col items-end content-end">
-        <button className="bg-red-500 cursor-pointer  text-white  hover:bg-red-700 px-4 py-1 rounded-2xl">
+        <button
+          onClick={handleLogout}
+          className="bg-red-500 cursor-pointer  text-white  hover:bg-red-700 px-4 py-1 rounded-2xl"
+        >
           logout
         </button>
       </div>
@@ -107,7 +114,7 @@ const AdminHome = () => {
       >
         <form
           onSubmit={handleSubmit}
-          className=" max-w-2xl mx-auto bg-pink-200 transition  shadow-gray-400  px-12 py-4 flex flex-col gap-4 rounded-sm"
+          className="max-w-2xl mx-auto bg-pink-200 transition  shadow-gray-400  px-12 py-4 flex flex-col gap-4 rounded-sm"
         >
           {/* Inputs */}
           <div className="flex flex-col ">
@@ -255,18 +262,18 @@ const AdminHome = () => {
           </button>
         </form>
         {/* add room side images */}
-        <div className="flex content-center items-center">
+        <div className="flex content-center items-center p-4 h-full">
           {roomData && (
-            <div className="w-[600px] flex gap-4 p-4 flex-wrap overflow-hidden justify-between items-center bg-pink-200">
+            <div className="w-[600px] h-full  flex gap-4 p-4 flex-wrap overflow-hidden justify-between items-center ">
               {roomData.map((room, i) => (
                 <div key={i}>
                   {" "}
-                  <div className="flex gap-4 justify-between items-center">
+                  <div className="flex gap-4 justify-between h-full items-center">
                     {room.imagesUrl && room.imagesUrl.length > 0 ? (
                       <Image
                         src={`http://localhost:8000/uploads/${room.imagesUrl[0]}`}
                         alt={`Room ${room.roomNumber}`}
-                        className="object-cover h-30 w-30"
+                        className="object-cover h-42 w-full hover:scale-x-102 hover:scale-y-102"
                         unoptimized
                         height={200}
                         width={200}
