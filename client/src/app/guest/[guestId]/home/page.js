@@ -41,21 +41,21 @@ const GuestHome = () => {
   }, [fetchAllRoomsData, fetchGuestData]);
 
   return (
-    <main className="flex flex-col items-center content-center bg-gray-100 text-black ">
+    <main className="flex flex-col items-center content-center bg-pink-200 text-black ">
       <h2 className="font-bold text-2xl">Guest Home</h2>
       <div>GuestId: {guestId}</div>
       <div>{guestData && <pre>{JSON.stringify(guestData, 2, 2)}</pre>} </div>
 
-      <div className="flex  content-center items-center">
+      <div className="flex  justify-between items-center p-2">
         {allRoomsData && (
-          <pre>
-            <div className="flex gap-2 flex-wrap">
+          <div className="text-sm">
+            <div className="flex gap-4 justify-center items-center flex-wrap ">
               {allRoomsData.roomsData.map((room) => (
                 <div
                   key={room._id}
-                  className="flex flex-col w-64 bg-pink-200 shadow-sm hover:shadow-md shadow-black rounded-sm"
+                  className="flex flex-col overflow-hidden w-64 bg-gray-200 shadow-sm hover:shadow-md shadow-black rounded-sm"
                 >
-                  <Link href={`/guest/${guestId}/home/${room._id}`}>
+                  <div >
                     <Image
                       src={`http://localhost:8000/uploads/${room.imagesUrl[0]}`}
                       height={200}
@@ -64,26 +64,32 @@ const GuestHome = () => {
                       className="object-cover h-40 transition 2s w-64 hover:scale-[104%] overflow-hidden"
                       unoptimized
                     />
-                  </Link>
-                  <div className="p-2">
+                  </div>
+                  <div className="px-4 py-2">
                     <div>RoomNumber: {room?.roomNumber}</div>
                     <div>RoomTypes: {room?.roomType}</div>
-                    <div>Price Per Night{room?.pricePerNight}</div>
-                    <div>Capacity: {room?.capacity}</div>
-                    <div>
+                    <div>Price Per Night: {room?.pricePerNight}</div>
+                    {/* <div>Capacity: {room?.capacity}</div> */}
+                    {/* <div>
                       Description:{" "}
                       <span className="wrap-break-all">
                         {room?.description}
                       </span>
-                    </div>
-                    <div>Images Url: {room?.roomNumber}</div>
+                    </div> */}
+                    {/* <div>Images Number: {room?.roomNumber}</div> */}
                     <div>Status: {room?.status}</div>
+                    <Link
+                      href={`/guest/${guestId}/home/${room._id}`}
+                      className={`flex bg-pink-500 hover:bg-pink-600 text-white flex-col rounded-sm cursor-pointer`}
+                    >
+                      <button className={`cursor-pointer`}>View More Details</button>
+                    </Link>
                   </div>
                 </div>
               ))}
             </div>
-            {/* <div>{JSON.stringify(allRoomsData, 2, 2)}</div> */}
-          </pre>
+            {/* <pre>{JSON.stringify(allRoomsData, 2, 2)}</pre> */}
+          </div>
         )}
       </div>
     </main>

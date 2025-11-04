@@ -37,20 +37,20 @@ const Room = () => {
 
   if (!roomData)
     return (
-      <main className="flex items-center justify-center min-h-screen bg-gray-100 text-gray-600">
+      <main className="flex items-center justify-center min-h-screen bg-gray-200 text-gray-600">
         Loading room details...
       </main>
     );
 
   return (
-    <main className="bg-gray-100 min-h-screen w-full py-6">
+    <main className="bg-pink-200 min-h-screen w-full py-6">
       {apiMessage && (
         <div className="text-center text-sm text-blue-600 mb-4">
           {apiMessage}
         </div>
       )}
 
-      <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+      <div className="max-w-4xl mx-auto bg-gray-200 rounded-xl shadow-md overflow-hidden">
         {/* ===== Room Images ===== */}
         <div className="flex flex-wrap gap-3 justify-center p-4">
           {roomData.imagesUrl.map((img, index) => (
@@ -119,7 +119,7 @@ const Room = () => {
               unoptimized
             />
             <button
-              className="absolute top-2 right-2 bg-white text-black rounded-full px-3 py-1 font-semibold hover:bg-gray-200"
+              className="absolute top-2 right-2 bg-gray-200 text-black rounded-full px-3 py-1 font-semibold hover:bg-gray-300"
               onClick={() => setSelectedImage(null)}
             >
               ✕

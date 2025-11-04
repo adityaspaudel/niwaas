@@ -161,7 +161,7 @@ const RoomDetails = () => {
 
       <div className="bg-pink-200 px-8 rounded-xl">
         {room && (
-          <div className="w-full max-w-2xl bg-white shadow-lg  p-6 md:p-8 border border-gray-200">
+          <div className="w-full max-w-2xl bg-gray-200 shadow-lg  p-6 md:p-8 border border-gray-200 rounded-xl">
             {/* Header */}
             <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center border-b pb-3">
               Room Details
@@ -285,7 +285,7 @@ const RoomDetails = () => {
                       name="roomNumber"
                       type="text"
                       value={roomEditValue.roomNumber}
-                      className="bg-white border-gray-400 border hover:border-black px-2 rounded-sm"
+                      className="bg-gray-200 border-gray-400 border hover:border-black px-2 rounded-sm"
                       onChange={handleRoomEditChange}
                     />
                   </div>
@@ -293,7 +293,7 @@ const RoomDetails = () => {
                     <label className="font-medium">Room Type:</label>
                     <select
                       name="roomType"
-                      className="bg-white border-gray-400 border hover:border-black px-2 rounded-sm"
+                      className="bg-gray-200 border-gray-400 border hover:border-black px-2 rounded-sm"
                       value={roomEditValue.roomType}
                       onChange={handleRoomEditChange}
                     >
@@ -311,7 +311,7 @@ const RoomDetails = () => {
                       type="number"
                       min="0"
                       value={roomEditValue.pricePerNight}
-                      className="bg-white border-gray-400 border hover:border-black px-2 rounded-sm"
+                      className="bg-gray-200 border-gray-400 border hover:border-black px-2 rounded-sm"
                       onChange={handleRoomEditChange}
                     />
                   </div>
@@ -321,7 +321,7 @@ const RoomDetails = () => {
                       name="capacity"
                       type="number"
                       value={roomEditValue.capacity}
-                      className="bg-white border-gray-400 border hover:border-black px-2 rounded-sm"
+                      className="bg-gray-200 border-gray-400 border hover:border-black px-2 rounded-sm"
                       onChange={handleRoomEditChange}
                     />
                   </div>
@@ -331,7 +331,7 @@ const RoomDetails = () => {
                       name="description"
                       value={roomEditValue.description}
                       onChange={handleRoomEditChange}
-                      className="bg-white border-gray-400 border hover:border-black px-2 rounded-sm"
+                      className="bg-gray-200 border-gray-400 border hover:border-black px-2 rounded-sm"
                     />
                   </div>
                   <div className="flex flex-col text-sm">
@@ -341,7 +341,7 @@ const RoomDetails = () => {
                       type="file"
                       multiple
                       onChange={handleRoomImagesChange}
-                      className="bg-white border-gray-400 border hover:border-black px-2 rounded-sm"
+                      className="bg-gray-200 border-gray-400 border hover:border-black px-2 rounded-sm"
                     />
                   </div>
                   {/* Preview Selected Images */}
@@ -352,7 +352,7 @@ const RoomDetails = () => {
                           key={idx}
                           src={URL.createObjectURL(file)}
                           alt="preview"
-                          className="bg-white  hover:border px-2 rounded-sm"
+                          className="bg-gray-200  hover:border px-2 rounded-sm"
                           height={200}
                           width={200}
                         />
