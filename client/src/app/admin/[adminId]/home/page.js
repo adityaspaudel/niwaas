@@ -89,7 +89,7 @@ const AdminHome = () => {
   };
 
   return (
-    <main className="bg-gray-100 text-black text-sm p-2">
+    <main className="bg-pink-200 text-black text-sm p-2">
       {/* <div>Admin Home</div> */}
       {errorMessage}
       <div className="flex flex-col items-end content-end">
@@ -104,7 +104,7 @@ const AdminHome = () => {
       <div className="flex flex-col items-center content-center">
         <button
           onClick={toggleAddRoom}
-          className="text-2xl  text-center font-semibold  mb-2 bg-green-500 hover:bg-green-600 text-white rounded-sm px-2 cursor-pointer"
+          className="text-2xl  text-center font-semibold  mb-2 bg-green-500 hover:bg-green-600 text-white rounded-xl px-4 cursor-pointer"
         >
           Add a room
         </button>
@@ -302,7 +302,7 @@ const AdminHome = () => {
             {roomData.map((room) => (
               <div
                 key={room._id}
-                className="w-full sm:w-[300px] shadow-md rounded-sm overflow-hidden hover:shadow-lg shadow-black transition-transform transform hover:-translate-y-1 bg-pink-200"
+                className="w-full sm:w-[300px] shadow-md rounded-sm overflow-hidden hover:shadow-lg shadow-black transition-transform transform hover:-translate-y-1 bg-gray-200"
               >
                 <div className="relative w-full h-48">
                   {room.imagesUrl && room.imagesUrl.length > 0 ? (

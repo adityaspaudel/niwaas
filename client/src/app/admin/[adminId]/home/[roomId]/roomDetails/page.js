@@ -161,7 +161,7 @@ const RoomDetails = () => {
 
       <div className="bg-pink-200 px-8 rounded-xl">
         {room && (
-          <div className="w-full max-w-2xl bg-white shadow-lg  p-6 md:p-8 border border-gray-200">
+          <div className="w-full max-w-2xl bg-gray-200 shadow-lg  p-6 md:p-8 border border-gray-200 rounded-xl">
             {/* Header */}
             <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center border-b pb-3">
               Room Details

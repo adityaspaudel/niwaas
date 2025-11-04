@@ -24,8 +24,8 @@ const LoginForm = () => {
 
   const handleClick = () => router.push("/register");
   return (
-    <div className="flex flex-col justify-center items-center bg-gray-100 h-screen w-screen text-black">
-      <div className="flex flex-col gap-2 px-8 py-8 justify-center items-center  border-gray-600  w-1/3 rounded-sm bg-pink-200 shadow hover:shadow-md hover:shadow-black transition ">
+    <div className="flex flex-col justify-center items-center bg-pink-200 h-screen w-screen text-black">
+      <div className="flex flex-col gap-2 px-8 py-8 justify-center items-center  border-gray-600  w-1/3 rounded-sm bg-gray-200 shadow hover:shadow-md hover:shadow-black transition ">
         <h1 className="font-bold w-full text-2xl flex flex-col text-start mb-2 ">
           Login
         </h1>

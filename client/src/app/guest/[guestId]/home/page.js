@@ -41,7 +41,7 @@ const GuestHome = () => {
   }, [fetchAllRoomsData, fetchGuestData]);
 
   return (
-    <main className="flex flex-col items-center content-center bg-gray-100 text-black ">
+    <main className="flex flex-col items-center content-center bg-pink-200 text-black ">
       <h2 className="font-bold text-2xl">Guest Home</h2>
       <div>GuestId: {guestId}</div>
       <div>{guestData && <pre>{JSON.stringify(guestData, 2, 2)}</pre>} </div>
@@ -53,7 +53,7 @@ const GuestHome = () => {
               {allRoomsData.roomsData.map((room) => (
                 <div
                   key={room._id}
-                  className="flex flex-col overflow-hidden w-64 bg-pink-200 shadow-sm hover:shadow-md shadow-black rounded-sm"
+                  className="flex flex-col overflow-hidden w-64 bg-gray-200 shadow-sm hover:shadow-md shadow-black rounded-sm"
                 >
                   <Link href={`/guest/${guestId}/home/${room._id}`}>
                     <Image
