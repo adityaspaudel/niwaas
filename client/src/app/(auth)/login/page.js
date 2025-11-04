@@ -25,7 +25,7 @@ const LoginForm = () => {
   const handleClick = () => router.push("/register");
   return (
     <div className="flex flex-col justify-center items-center bg-pink-200 h-screen w-screen text-black">
-      <div className="flex flex-col gap-2 px-8 py-8 justify-center items-center  border-gray-600  w-1/3 rounded-sm bg-gray-200 shadow hover:shadow-md hover:shadow-black transition ">
+      <div className="flex flex-col gap-2 px-8 py-8 justify-center items-center rounded-xl border-gray-600  w-1/3  bg-gray-200 shadow hover:shadow-md hover:shadow-black transition ">
         <h1 className="font-bold w-full text-2xl flex flex-col text-start mb-2 ">
           Login
         </h1>
@@ -69,7 +69,7 @@ const LoginForm = () => {
               <div className="flex flex-col w-full">
                 <label htmlFor="email">Email</label>
                 <Field
-                  className="py-1 px-2 border rounded-4xl bg-white w-full"
+                  className="py-1 px-2 border rounded-4xl bg-gray-200 w-full"
                   name="email"
                   placeholder="jane@acme.com"
                   type="email"
@@ -78,7 +78,7 @@ const LoginForm = () => {
               <div className="flex flex-col w-full">
                 <label htmlFor="password">Password</label>
                 <Field
-                  className="py-1 px-2 border rounded-4xl bg-white w-full"
+                  className="py-1 px-2 border rounded-4xl bg-gray-200 w-full"
                   name="password"
                   placeholder="password"
                   type="password"

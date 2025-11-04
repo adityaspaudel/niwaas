@@ -35,8 +35,8 @@ const RegistrationForm = () => {
   const router = useRouter();
   const handleClick = () => router.push("/login");
   return (
-    <div className="flex flex-col justify-center items-center h-screen w-screen bg-white text-black">
-      <div className="flex flex-col items-center content-start bg-pink-200 gap-2 shadow hover:shadow-md shadow-black  p-8 min-h-1/2 w-1/3">
+    <div className="flex flex-col justify-center items-center h-screen w-screen bg-pink-200 text-black">
+      <div className="flex flex-col items-center content-start bg-gray-200 gap-2 shadow rounded-xl hover:shadow-md shadow-black  p-8 min-h-1/2 w-1/3">
         <h1 className="text-start flex flex-col items-start content-start w-full font-bold text-2xl">
           Sign Up
         </h1>
@@ -84,7 +84,7 @@ const RegistrationForm = () => {
                 <label htmlFor="fullName">Full Name</label>
                 <Field
                   name="fullName"
-                  className=" bg-white w-full px-2 py-1 rounded-4xl"
+                  className=" bg-gray-200 w-full px-2 py-1 rounded-4xl"
                   placeholder="Jane"
                 />
                 <div className="text-red-400 text-xs">
@@ -97,7 +97,7 @@ const RegistrationForm = () => {
                 <label htmlFor="username">Username</label>
                 <Field
                   name="username"
-                  className=" bg-white w-full px-2 py-1 rounded-4xl"
+                  className=" bg-gray-200 w-full px-2 py-1 rounded-4xl"
                   placeholder="Jane"
                 />
                 <div className="text-red-400 text-xs">
@@ -110,7 +110,7 @@ const RegistrationForm = () => {
                 <label htmlFor="email">Email</label>
                 <Field
                   name="email"
-                  className="] bg-white w-full px-2 py-1 rounded-4xl"
+                  className="] bg-gray-200 w-full px-2 py-1 rounded-4xl"
                   placeholder="jane@acme.com"
                   type="email"
                 />
@@ -124,7 +124,7 @@ const RegistrationForm = () => {
                 <label>Password</label>
                 <Field
                   name="password"
-                  className=" bg-white w-full px-2 py-1 rounded-4xl"
+                  className=" bg-gray-200 w-full px-2 py-1 rounded-4xl"
                   placeholder="password"
                   type="password"
                 />
@@ -134,7 +134,11 @@ const RegistrationForm = () => {
                   ) : null}
                 </div>
               </div>
-              <Field as="select" className="bg-white rounded-4xl py-1 px-2" name="role">
+              <Field
+                as="select"
+                className="bg-gray-200 rounded-4xl py-1 px-2"
+                name="role"
+              >
                 <option value="guest">Guest</option>
                 <option value="admin">Admin</option>
                 <option value="staff">Staff</option>
