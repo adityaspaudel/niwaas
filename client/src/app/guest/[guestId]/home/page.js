@@ -46,14 +46,14 @@ const GuestHome = () => {
       <div>GuestId: {guestId}</div>
       <div>{guestData && <pre>{JSON.stringify(guestData, 2, 2)}</pre>} </div>
 
-      <div className="flex  content-center items-center">
+      <div className="flex  justify-between items-center p-2">
         {allRoomsData && (
           <pre>
-            <div className="flex gap-2 flex-wrap">
+            <div className="flex gap-4 justify-center items-center flex-wrap ">
               {allRoomsData.roomsData.map((room) => (
                 <div
                   key={room._id}
-                  className="flex flex-col w-64 bg-pink-200 shadow-sm hover:shadow-md shadow-black rounded-sm"
+                  className="flex flex-col overflow-hidden w-64 bg-pink-200 shadow-sm hover:shadow-md shadow-black rounded-sm"
                 >
                   <Link href={`/guest/${guestId}/home/${room._id}`}>
                     <Image
@@ -68,7 +68,7 @@ const GuestHome = () => {
                   <div className="p-2">
                     <div>RoomNumber: {room?.roomNumber}</div>
                     <div>RoomTypes: {room?.roomType}</div>
-                    <div>Price Per Night{room?.pricePerNight}</div>
+                    <div>Price Per Night: {room?.pricePerNight}</div>
                     <div>Capacity: {room?.capacity}</div>
                     <div>
                       Description:{" "}
